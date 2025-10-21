@@ -277,51 +277,51 @@ function updateJobList() {
   const jobItems = document.querySelectorAll(".job-item");
   const jobList = [];
 
-jobs.forEach((job, index) => {
-  const div = document.createElement("div");
-  div.className = "job-item";
-  div.onclick = () => hienChiTiet(job);
-
-  if (job.duyet) {
-    div.innerHTML = `
-      <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
-      <small>${job.diachi} | Lương: ${job.luong}</small>
-      ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
-    `;
-    jobContainer.appendChild(div);
-  } else if (isAdmin) {
-    div.innerHTML = `
-      <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
-      <small>${job.diachi} | Lương: ${job.luong}</small><br>
-      <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
-      <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
-    `;
-    pendingContainer.appendChild(div);
-  }
-});
-
+  jobItems.forEach(item => {
+    const title = item.querySelector("strong")?.textContent.trim() || "";
+    const info = item.textContent.trim();
+    jobList.push({ title, info });
+  });
 
   return jobList;
 }
 
 
+
 </script>
 <script>
-window.onload = function() 
-{ const jobs = JSON.parse(localStorage.getItem("jobs")) || []; const jobContainer = document.querySelector(".jobs"); const pendingContainer = document.getElementById("pendingJobs"); 
-const isAdmin = localStorage.getItem("role") === "admin"; jobs.forEach((job, index) => { const div = document.createElement("div"); div.className = "job-item"; div.onclick = () => hienChiTiet(job); 
-  if (job.duyet) 
-    { div.innerHTML = ` <strong>${job.tenCV}</strong> - ${job.tenCT}<br> <small>${job.diachi} | Lương: ${job.luong}</small> ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""
-} `; 
-  jobContainer.appendChild(div); 
-} 
-else if (isAdmin) {
- div.innerHTML = ` <strong>${job.tenCV}</strong> - ${job.tenCT}<br> <small>${job.diachi} | Lương: ${job.luong}</small><br> <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button> <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button> `; 
-  pendingContainer.appendChild(div); 
-} 
-}); 
-if (isAdmin) { document.getElementById("adminPanel").style.display = "block"; 
-} 
+window.onload = function() {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+  });
+
+  if (isAdmin) {
+    document.getElementById("adminPanel").style.display = "block";
+  }
 };
 
 let currentDetailJob = null; // lưu bài đang xem
