@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng Tuyển Dụng</title>
+  <style>
+    body 
+    {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container 
+    {
+      max-width: 500px;
+      margin: 50px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 
+    {
+      text-align: center;
+      color: #0073e6;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] 
+    {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus 
+    {
+      border-color: #0073e6;
+      outline: none;
+    }
+
+    button 
+    {
+      width: 100%;
+      padding: 12px;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover 
+    {
+      background-color: #005bb5;
+    }
+
+    .note 
+    {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+    }
+
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.3s;
+  border-color: red;
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Đăng Tin Tuyển Dụng</h2>
+    <form id="postJobForm">
+      <input type="text" id="tenCV" placeholder="Tên công việc" required>
+      <input type="text" id="tenCT" placeholder="Tên công ty" required>
+      <input type="text" id="diachi" placeholder="Địa điểm" required>
+      <input type="text" id="luong" placeholder="Lương" required>
+      <textarea id="chitiet" placeholder="Thông tin chi tiết về công việc" rows="5" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:6px; font-size:16px;"></textarea>
+
+      <button type="submit">Đăng tuyển</button>
+    </form>
+    <p class="note">Thông tin sẽ được hiển thị ngay sau khi đăng.</p>
+  </div>
+
+<script>
+document.getElementById("postJobForm").onsubmit = function(e) {
+  e.preventDefault();
+
+  const tenCV = document.getElementById("tenCV");
+  const tenCT = document.getElementById("tenCT");
+  const diachi = document.getElementById("diachi");
+  const luong = document.getElementById("luong");
+  const chitiet = document.getElementById("chitiet");
+
+  let hasError = false;
+
+  [tenCV, tenCT, diachi, luong, chitiet].forEach(input => {
+    if (input.value.trim() === "") {
+      input.classList.add("shake");
+      hasError = true;
+      setTimeout(() => input.classList.remove("shake"), 300);
+    }
+  });
+
+  if (hasError) {
+    alert("Vui lòng điền đầy đủ thông tin!");
+    return;
+  }
+
+  const job = {
+    tenCV: tenCV.value.trim(),
+    tenCT: tenCT.value.trim(),
+    diachi: diachi.value.trim(),
+    luong: luong.value.trim(),
+    chitiet: chitiet.value.trim(),
+    duyet: false
+  };
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  jobs.push(job);
+  localStorage.setItem("jobs", JSON.stringify(jobs));
+
+  alert(
+    `Đã đăng tuyển:\n` +
+    `- Công việc: ${job.tenCV}\n` +
+    `- Công ty: ${job.tenCT}\n` +
+    `- Địa điểm: ${job.diachi}\n` +
+    `- Lương: ${job.luong}\n` +
+    `- Thông tin chi tiết: ${job.chitiet}\n\n` +
+    `Trạng thái: Chờ duyệt`
+  );
+
+  const tiepTuc = confirm("Bạn có muốn đăng thêm bài?");
+  if (tiepTuc) {
+    document.getElementById("postJobForm").reset();
+  } else {
+    window.location.href = "test.html"; 
+  }
+};
+</script>
+
+
+
+
+</body>
+</html>
