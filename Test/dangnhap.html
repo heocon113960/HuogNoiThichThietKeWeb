@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding-top: 100px;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Đăng Nhập Tài Khoản Của Bạn</h2>
+    <input type="text" id="username" placeholder="Tên đăng nhập"><br>
+    <input type="password" id="password" placeholder="Mật khẩu"><br>
+    <button onclick="dangNhap()">Đăng nhập</button>
+  </div>
+
+  <script>
+    function dangNhap() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "admin" && pass === "123456") {
+        localStorage.setItem("role", "admin");
+        localStorage.setItem("username", user); // lưu tên tài khoản
+        alert("Đăng nhập thành công!");
+        window.location.href = "test.html";
+      } else {
+        alert("Sai tài khoản hoặc mật khẩu.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -176,9 +176,14 @@
     <a href="#">Trang Chủ</a>
     <a href="#">Tìm Việc</a>
     <a href="dangviec.html">Đăng Tuyển</a>
-    <a href="#">Đăng Nhập</a>
-    <a href="#">Đăng Ký</a>
+    <a href="#" id="logoutLink" onclick="dangXuat()" style="display:none;">Đăng Xuất</a>
+<a href="dangnhap.html" id="loginLink">Đăng Nhập</a>
+
+    <a href="#" id="registerLink">Đăng Ký</a>
+
   </nav>
+  <div id="userInfo" style="text-align:center; margin:10px;"></div>
+
 
   <div class="banner">
     <h2>Chào mừng đến với TMTeam</h2>
@@ -199,7 +204,6 @@
     <div id="pendingJobs"></div>
   </div>
 </div>
-
 
   <div class="jobs">
     <h3>Việc làm hiện tại:</h3>
@@ -289,8 +293,11 @@ function updateJobList() {
 
 
 </script>
+
 <script>
 window.onload = function() {
+  capNhatGiaoDienNguoiDung();
+
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   const jobContainer = document.querySelector(".jobs");
   const pendingContainer = document.getElementById("pendingJobs");
@@ -319,17 +326,9 @@ window.onload = function() {
     }
   });
 
-  if (isAdmin) {
-    document.getElementById("adminPanel").style.display = "block";
-  }
+  document.getElementById("adminPanel").style.display = isAdmin ? "block" : "none";
 };
 
-let currentDetailJob = null; // lưu bài đang xem
-
-function hienChiTiet(job) {
-  const url = `chitiet.html?tenCV=${encodeURIComponent(job.tenCV)}&tenCT=${encodeURIComponent(job.tenCT)}&diachi=${encodeURIComponent(job.diachi)}&luong=${encodeURIComponent(job.luong)}&chitiet=${encodeURIComponent(job.chitiet || "")}`;
-  window.location.href = url;
-}
 
 
 
@@ -366,14 +365,46 @@ function renderJobs() {
     }
   });
 
-  if (currentDetailJob) {
-    setTimeout(() => hienChiTiet(currentDetailJob), 100);
+  if (isAdmin) {
+  document.getElementById("adminPanel").style.display = "block";
+} else {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+}
+
+function capNhatGiaoDienNguoiDung() {
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
+
+  const userInfo = document.getElementById("userInfo");
+  const loginLink = document.getElementById("loginLink");
+  const logoutLink = document.getElementById("logoutLink");
+  const registerLink = document.getElementById("registerLink");
+
+  if (username) {
+    userInfo.innerHTML = `<strong>👤 Xin chào, ${username}</strong>`;
+    loginLink.style.display = "none";
+    logoutLink.style.display = "inline-block";
+    registerLink.style.display = "none";
+  } else {
+    userInfo.innerHTML = "";
+    loginLink.style.display = "inline-block";
+    logoutLink.style.display = "none";
+    registerLink.style.display = "inline-block";
   }
 }
 
 
 
+
 function duyetBai(index) {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("Bạn không có quyền duyệt bài.");
+    return;
+  }
+
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   jobs[index].duyet = true;
   localStorage.setItem("jobs", JSON.stringify(jobs));
@@ -382,6 +413,12 @@ function duyetBai(index) {
 }
 
 function xoaBai(index) {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("Bạn không có quyền xóa bài.");
+    return;
+  }
+
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   const confirmDelete = confirm("Bạn có chắc muốn xóa bài này?");
   if (confirmDelete) {
@@ -392,10 +429,24 @@ function xoaBai(index) {
   }
 }
 
+function dangXuat() {
+  localStorage.removeItem("role");
+  localStorage.removeItem("username");
+  alert("Đã đăng xuất.");
+  location.reload();
+}
 
 
 
-localStorage.setItem("role", "admin");
+//localStorage.setItem("role", "admin");
+
+
+
+function hienChiTiet(job) {
+  const url = `chitiet.html?tenCV=${encodeURIComponent(job.tenCV)}&tenCT=${encodeURIComponent(job.tenCT)}&diachi=${encodeURIComponent(job.diachi)}&luong=${encodeURIComponent(job.luong)}&chitiet=${encodeURIComponent(job.chitiet || "")}`;
+  window.location.href = url;
+}
+
 
 </script>
 
