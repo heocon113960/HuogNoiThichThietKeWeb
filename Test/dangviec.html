@@ -5,107 +5,170 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Đăng Tuyển Dụng</title>
   <style>
-    body 
-    {
+    body {
       font-family: "Segoe UI", sans-serif;
       background: linear-gradient(to right, #e0f7fa, #ffffff);
       margin: 0;
       padding: 0;
     }
 
-    .container 
-    {
+    .tmteam-logo {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #0073e6;
+      z-index: 999;
+    }
+
+    .container {
       max-width: 500px;
-      margin: 50px auto;
+      margin: 80px auto 50px;
       background-color: #ffffff;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
     }
 
-    h2 
-    {
+    h2 {
       text-align: center;
       color: #0073e6;
       margin-bottom: 20px;
     }
 
-    input[type="text"] 
-    {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-      box-sizing: border-box;
-      transition: border-color 0.3s;
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+      font-size: 15px;
     }
 
-    input[type="text"]:focus 
-    {
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    input[type="text"]:focus, textarea:focus {
       border-color: #0073e6;
+      box-shadow: 0 0 5px rgba(0,115,230,0.3);
       outline: none;
     }
 
-    button 
-    {
+    button {
       width: 100%;
       padding: 12px;
-      background-color: #0073e6;
+      background: linear-gradient(to right, #0073e6, #00bcd4);
       color: white;
       border: none;
       border-radius: 6px;
       font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
       cursor: pointer;
       transition: background-color 0.3s;
+      margin-top: 20px;
     }
 
-    button:hover 
-    {
+    button:hover {
       background-color: #005bb5;
     }
 
-    .note 
-    {
+    .note {
       text-align: center;
       font-size: 14px;
       color: #666;
       margin-top: 10px;
     }
 
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
 
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0); }
-}
+    .shake {
+      animation: shake 0.3s;
+      border-color: red;
+    }
 
-.shake {
-  animation: shake 0.3s;
-  border-color: red;
-}
+    #suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      max-height: 150px;
+      overflow-y: auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: none;
+    }
 
+    #suggestions li {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.2s ease;
+    }
 
+    #suggestions li:hover {
+      background-color: #f0f0f0;
+    }
   </style>
 </head>
 <body>
+<div class="tmteam-logo">TMTeam</div>
 
-  <div class="container">
-    <h2>Đăng Tin Tuyển Dụng</h2>
-    <form id="postJobForm">
-      <input type="text" id="tenCV" placeholder="Tên công việc" required>
-      <input type="text" id="tenCT" placeholder="Tên công ty" required>
-      <input type="text" id="diachi" placeholder="Địa điểm" required>
-      <input type="text" id="luong" placeholder="Lương" required>
-      <textarea id="chitiet" placeholder="Thông tin chi tiết về công việc" rows="5" style="width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:6px; font-size:16px;"></textarea>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
-      <button type="submit">Đăng tuyển</button>
-    </form>
-    <p class="note">Thông tin sẽ được hiển thị ngay sau khi đăng.</p>
-  </div>
+<div class="container">
+  <h2>Đăng Tin Tuyển Dụng</h2>
+  <form id="postJobForm">
+    <label for="tenCV">Tên công việc</label>
+    <input type="text" id="tenCV" placeholder="VD: Nhân viên bán hàng" required>
+
+    <label for="tenCT">Tên công ty</label>
+    <input type="text" id="tenCT" placeholder="VD: TMTeam Việt Nam" required>
+
+    <div id="map" style="height: 300px; margin: 20px 0; border-radius: 10px;"></div>
+
+    <label for="diachi">Địa chỉ (tùy chọn)</label>
+    <div style="position: relative;">
+      <input type="text" id="diachi" placeholder="VD: 60/18A Huỳnh Khương An" />
+      <ul id="suggestions"></ul>
+    </div>
+
+    <input type="hidden" id="lat">
+    <input type="hidden" id="lng">
+
+    <label for="luong">Lương</label>
+    <input type="text" id="luong" placeholder="VD: 8.000.000 VNĐ" required>
+
+    <label for="chitiet">Thông tin chi tiết</label>
+    <textarea id="chitiet" placeholder="Mô tả công việc, yêu cầu, quyền lợi..." rows="5"></textarea>
+
+    <button type="submit">Đăng tuyển</button>
+  </form>
+  <p class="note">Thông tin sẽ được hiển thị ngay sau khi đăng.</p>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
 <script>
 document.getElementById("postJobForm").onsubmit = function(e) {
@@ -119,7 +182,7 @@ document.getElementById("postJobForm").onsubmit = function(e) {
 
   let hasError = false;
 
-  [tenCV, tenCT, diachi, luong, chitiet].forEach(input => {
+  [tenCV, tenCT, luong, chitiet].forEach(input => {
     if (input.value.trim() === "") {
       input.classList.add("shake");
       hasError = true;
@@ -132,10 +195,20 @@ document.getElementById("postJobForm").onsubmit = function(e) {
     return;
   }
 
+  const lat = document.getElementById("lat").value;
+  const lng = document.getElementById("lng").value;
+
+  if (!lat || !lng) {
+    const confirmNoLocation = confirm("Bạn chưa chọn vị trí trên bản đồ. Tiếp tục đăng mà không có tọa độ?");
+    if (!confirmNoLocation) return;
+  }
+
   const job = {
     tenCV: tenCV.value.trim(),
     tenCT: tenCT.value.trim(),
     diachi: diachi.value.trim(),
+    lat: parseFloat(lat),
+    lng: parseFloat(lng),
     luong: luong.value.trim(),
     chitiet: chitiet.value.trim(),
     duyet: false
@@ -149,7 +222,7 @@ document.getElementById("postJobForm").onsubmit = function(e) {
     `Đã đăng tuyển:\n` +
     `- Công việc: ${job.tenCV}\n` +
     `- Công ty: ${job.tenCT}\n` +
-    `- Địa điểm: ${job.diachi}\n` +
+    `- Địa điểm: ${job.diachi || "Không có"}\n` +
     `- Lương: ${job.luong}\n` +
     `- Thông tin chi tiết: ${job.chitiet}\n\n` +
     `Trạng thái: Chờ duyệt`
@@ -158,14 +231,126 @@ document.getElementById("postJobForm").onsubmit = function(e) {
   const tiepTuc = confirm("Bạn có muốn đăng thêm bài?");
   if (tiepTuc) {
     document.getElementById("postJobForm").reset();
+    document.getElementById("suggestions").innerHTML = "";
+    document.getElementById("suggestions").style.display = "none";
+    if (marker) {
+      map.removeLayer(marker);
+      marker = null;
+    }
+    document.getElementById("lat").value = "";
+    document.getElementById("lng").value = "";
   } else {
-    window.location.href = "test.html"; 
+    window.location.href = "test.html";
   }
 };
 </script>
 
 
 
+<script>
+let map = L.map('map').setView([10.7769, 106.7009], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap'
+}).addTo(map);
+
+let marker;
+
+function layDiaChiTuToaDo(lat, lng) {
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.display_name) {
+        document.getElementById("diachi").value = data.display_name;
+      }
+    });
+}
+
+map.on('click', function(e) {
+  const lat = e.latlng.lat.toFixed(6);
+  const lng = e.latlng.lng.toFixed(6);
+
+  document.getElementById("lat").value = lat;
+  document.getElementById("lng").value = lng;
+
+  if (marker) {
+    marker.setLatLng(e.latlng);
+  } else {
+    marker = L.marker(e.latlng).addTo(map);
+  }
+
+  marker.bindPopup(`Vị trí đã chọn:<br>Lat: ${lat}<br>Lng: ${lng}`).openPopup();
+
+  const xacNhan = confirm("Bạn có muốn tự động điền địa chỉ từ vị trí đã chọn?");
+  if (xacNhan) {
+    layDiaChiTuToaDo(lat, lng);
+  }
+});
+</script>
+
+<script>
+document.getElementById("diachi").addEventListener("input", function() {
+  const query = this.value.trim();
+  const suggestionsList = document.getElementById("suggestions");
+
+  const lat = document.getElementById("lat").value;
+  const lng = document.getElementById("lng").value;
+
+  // Nếu đã chọn tọa độ rồi thì không hiển thị gợi ý nữa
+  if (lat && lng) {
+    suggestionsList.innerHTML = "";
+    suggestionsList.style.display = "none";
+    return;
+  }
+
+  if (query.length < 3) {
+    suggestionsList.innerHTML = "";
+    suggestionsList.style.display = "none";
+    return;
+  }
+
+  suggestionsList.style.display = "block";
+
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5&countrycodes=vn`)
+    .then(response => response.json())
+    .then(data => {
+      const allowedProvinces = ["Hồ Chí Minh", "Cần Thơ", "Bình Dương", "Đồng Nai", "Vũng Tàu", "Long An", "Tiền Giang", "Bến Tre"];
+      const filtered = data.filter(place => {
+        const addrText = place.display_name.toLowerCase();
+        const inputText = query.toLowerCase();
+        const isInAllowedProvince = allowedProvinces.some(p => Object.values(place.address).join(" ").includes(p));
+        const isExactSequenceMatch = addrText.includes(inputText);
+        return isInAllowedProvince && isExactSequenceMatch;
+      });
+
+      suggestionsList.innerHTML = "";
+
+      filtered.forEach(place => {
+        const li = document.createElement("li");
+        li.textContent = place.display_name;
+
+        li.onclick = () => {
+          document.getElementById("diachi").value = place.display_name;
+          document.getElementById("lat").value = place.lat;
+          document.getElementById("lng").value = place.lon;
+          suggestionsList.innerHTML = "";
+          suggestionsList.style.display = "none";
+
+          const latlng = L.latLng(place.lat, place.lon);
+          map.setView(latlng, 15);
+          if (marker) {
+            marker.setLatLng(latlng);
+          } else {
+            marker = L.marker(latlng).addTo(map);
+          }
+          marker.bindPopup(`Vị trí đã chọn:<br>Lat: ${place.lat}<br>Lng: ${place.lon}`).openPopup();
+        };
+
+        suggestionsList.appendChild(li);
+      });
+    });
+});
+
+</script>
 
 </body>
 </html>

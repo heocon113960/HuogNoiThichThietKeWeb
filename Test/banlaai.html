@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bạn là ai?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      padding: 40px 20px;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .role-box {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .role-option {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      width: 200px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .role-option:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .role-option img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      background-color: #ccc;
+    }
+
+    .role-option p {
+      margin-top: 12px;
+      font-weight: bold;
+      color: #0073e6;
+    }
+
+    .banner {
+      margin-top: 40px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Bạn là ai?</h2>
+    <div class="role-box">
+      <div class="role-option" onclick="chonVaiTro('nguoitimviec')">
+        <img src="https://talentbold.com/uptalent/attachments/images/20211028/151910462_ky-nang-tim-kiem-viec-lam-2.png" alt="hình minh họa">
+        <p>Người tìm việc</p>
+      </div>
+      <div class="role-option" onclick="chonVaiTro('nhatuyendung')">
+        <img src="https://dangkycongty.vn/wp-content/uploads/2021/11/Untitled-design-6.png" alt="hình minh họa">
+        <p>Nhà tuyển dụng</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function chonVaiTro(vaiTro) {
+      localStorage.setItem("vaitro", vaiTro);
+
+      if (vaiTro === "nguoitimviec") {
+        window.location.href = "test.html";
+      } else if (vaiTro === "nhatuyendung") {
+        window.location.href = "test.html";
+      }
+    }
+  </script>
+</body>
+</html>
