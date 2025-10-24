@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>    
+    body 
+    { 
+      font-family: Time New Roman, sans-serif; margin: 0;  
+      padding: 0; 
+    }
+
+    header 
+    { 
+      background-color: #0073e6; 
+      color: white; 
+      padding: 20px; 
+      text-align: center; }
+
+
+    .search-box {
+      display: flex;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    input[type="text"] 
+    {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px 0 0 4px;
+      outline: none;
+    }
+
+    button 
+    {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-left: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+
+    button:hover 
+    {
+      background-color: #45a049;
+    }
+
+
+nav {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+}
+
+
+.nav-left .logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0073e6;
+}
+
+
+.nav-center {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-center a:hover {
+  color: #0073e6;
+}
+
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-right i {
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Nút đăng nhập */
+.nav-right .login {
+  text-decoration: none;
+  color: #0073e6;
+  border: 1px solid #0073e6;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.nav-right .login:hover {
+  background-color: #e6f0ff;
+}
+
+/* Nút đăng ký */
+.nav-right .register {
+  text-decoration: none;
+  background-color: #0073e6;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.nav-right .register:hover {
+  background-color: #005bb5;
+}
+
+    .banner 
+    { 
+      background-color: #e6f7ff; 
+      padding: 40px; 
+      text-align: center; 
+    }
+
+    .jobs { padding: 20px; }
+
+    .job-item 
+    {
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+.job-item a 
+{
+  display: block;
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.job-item a:hover 
+{
+  color: #000080;
+}
+
+
+    footer 
+
+    { 
+      background-color: #333; 
+      color: white; 
+      text-align: center; 
+      padding: 10px; 
+    }
+
+
+
+.admin-box {
+  max-width: 600px;
+  margin: 30px auto;
+  background-color: #fff8e1;
+  border: 2px solid #ffcc80;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.admin-box h3 {
+  color: #ff9800;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-note {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-box .job-item {
+  background-color: #fff3e0;
+  border: 1px solid #ffe0b2;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.admin-box .job-item button {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.3s;
+}
+
+.admin-box .job-item button:hover {
+  background-color: #fb8c00;
+}
+
+.admin-box .job-item button.delete {
+  background-color: #e53935;
+  margin-left: 10px;
+}
+
+.admin-box .job-item button.delete:hover {
+  background-color: #c62828;
+}
+
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  margin: 30px auto;
+  background-color: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 8px 16px;
+  transition: box-shadow 0.3s;
+}
+
+.search-box:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.search-box input[type="text"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 10px 16px;
+  border-radius: 50px;
+  background-color: transparent;
+}
+
+.search-box button {
+  border: none;
+  background-color: #0073e6;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-box button:hover {
+  background-color: #005bb5;
+}
+
+
+  </style>
+
+</head>
+<body>
+ <header>
+  <p>Nền tảng tìm người tìm việc nhanh chóng & miễn phí</p>
+</header>
+
+<nav>
+  <div class="nav-container">
+    <div class="nav-left">
+      <span class="logo">TMTeam</span>
+    </div>
+    <div class="nav-center">
+      <a href="#">Trang Chủ</a>
+      <a href="#">Blog</a>
+      <a href="dangviec.html" id="dangViecLink" style="display:none;">Đăng Việc</a>
+
+    </div>
+    <div class="nav-right">
+      <i class="fas fa-bell"></i>
+      <a href="#" id="logoutLink" onclick="dangXuat()" style="display:none;">Đăng Xuất</a>
+      <a href="dangnhap.html" id="loginLink" class="login">Đăng Nhập</a>
+      <a href="dangky.html" id="registerLink" class="register">Đăng Ký</a>
+    </div>
+  </div>
+</nav>
+
+<div onclick="toggleThongBao()" title="Thông báo" style="position:fixed; top:20px; right:30px; font-size:24px; cursor:pointer; z-index:999;">🔔</div>
+<!-- Dòng chào admin -->
+<div id="userInfo" style="text-align:center; font-weight:bold; margin:10px 0;"></div>
+
+<!-- Khung duyệt tài khoản -->
+<div id="khungDuyet" style="display:none; max-width:500px; margin:80px auto; background:#fff8e1; border:2px solid #ffcc80; border-radius:10px; padding:20px;">
+  <h3 style="text-align:center; color:#ff9800;">📋 Tài khoản chờ duyệt</h3>
+  <div id="danhSachTaiKhoan"></div>
+</div>
+
+<div id="userInfo" style="text-align:center; margin:10px;"></div>
+
+
+  <div class="banner">
+    <h2>Chào mừng đến với TMTeam</h2>
+    <p>Tìm việc làm phù hợp hoặc đăng tin tuyển dụng dễ dàng</p>
+  </div>
+
+
+  <div class="search-box">
+  <input type="text" id="searchInput" placeholder="Tìm việc bạn cần:..." oninput="showSuggestions()">
+  <button onclick="search()">Tìm kiếm</button>
+</div>
+<ul id="suggestions" style="max-width:400px; margin:auto; list-style:none; padding:0; background:#fff; border:1px solid #ccc; border-radius:4px;"></ul>
+
+<div id="adminPanel" style="display: none;">
+  <div class="admin-box">
+    <h3>📢 Bài đăng chờ duyệt:</h3>
+    <p class="admin-note">Chỉ tài khoản quản trị mới có thể duyệt bài đăng mới.</p>
+    <div id="pendingJobs"></div>
+  </div>
+</div>
+
+  <div class="jobs">
+    <h3>Việc làm hiện tại:</h3>
+
+
+<div id="jobDetail" style="max-width:600px; margin:20px auto; padding:20px; border:1px solid #ccc; border-radius:10px; background:#f9f9f9; display:none;"></div>
+
+</div>
+
+  <footer>
+    &copy; 2025 TMTeam | Liên hệ:0368284041 | Email:ricute069@gmail.com  
+  </footer>
+
+
+<!-- lụm AI rất nhiều-->
+<script>
+
+  let jobs = [];
+
+
+function showSuggestions() 
+{
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const suggestionBox = document.getElementById("suggestions");
+  suggestionBox.innerHTML = "";
+
+  const jobList = updateJobList();
+
+  if (input.length === 0) return;
+
+  // Tìm theo title hoặc info
+  const filteredJobs = jobList.filter(job =>
+    job.title.toLowerCase().includes(input) ||
+    job.info.toLowerCase().includes(input)
+  );
+
+  filteredJobs.forEach(job => {
+    const li = document.createElement("li");
+    li.textContent = job.info;
+    li.style.padding = "8px";
+    li.style.borderBottom = "1px solid #ccc";
+    li.style.cursor = "pointer";
+    li.onmouseover = () => li.style.backgroundColor = "#f2f2f2";
+    li.onmouseout = () => li.style.backgroundColor = "#fff";
+    li.onclick = () => {
+      document.getElementById("searchInput").value = job.title;
+      suggestionBox.innerHTML = "";
+      search();
+    };
+    suggestionBox.appendChild(li);
+  });
+}
+
+
+
+function search() {
+  document.getElementById("suggestions").style.display = "none";
+
+  const keyword = document.getElementById("searchInput").value.toLowerCase();
+  const jobContainer = document.querySelector(".jobs");
+  jobContainer.innerHTML = "<h3>Kết quả tìm kiếm:</h3>";
+
+  let lat = parseFloat(localStorage.getItem("lat"));
+  let lng = parseFloat(localStorage.getItem("lng"));
+
+  if (isNaN(lat) || isNaN(lng)) {
+    if (!viTriDaLay && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        localStorage.setItem("lat", position.coords.latitude);
+        localStorage.setItem("lng", position.coords.longitude);
+        viTriDaLay = true;
+        search(); // gọi lại sau khi có vị trí
+      }, function(error) {
+        alert("⚠️ Không thể lấy vị trí: " + error.message);
+      });
+    }
+    return;
+  }
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const filteredJobs = jobs.filter(job =>
+    job.tenCV.toLowerCase().includes(keyword) ||
+    job.tenCT.toLowerCase().includes(keyword) ||
+    job.diachi.toLowerCase().includes(keyword)
+  );
+
+  filteredJobs.sort((a, b) => {
+    const distA = tinhKhoangCach(lat, lng, a.lat, a.lng);
+    const distB = tinhKhoangCach(lat, lng, b.lat, b.lng);
+    return distA - distB;
+  });
+
+  filteredJobs.forEach(job => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.innerHTML = `
+      <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+      <small>${job.diachi} | Lương: ${job.luong}</small>
+    `;
+    div.onclick = () => hienChiTiet(job);
+    jobContainer.appendChild(div);
+  });
+}
+
+
+
+function updateJobList() {
+  const jobItems = document.querySelectorAll(".job-item");
+  const jobList = [];
+
+  jobItems.forEach(item => {
+    const title = item.querySelector("strong")?.textContent.trim() || "";
+    const info = item.textContent.trim();
+    jobList.push({ title, info });
+  });
+
+  return jobList;
+}
+
+
+
+</script>
+
+<script>
+  let viTriDaLay = false;
+
+window.onload = function() {
+  capNhatGiaoDienNguoiDung();
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+
+
+  });
+
+  document.getElementById("adminPanel").style.display = isAdmin ? "block" : "none";
+};
+
+
+
+
+
+function renderJobs() {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobContainer.innerHTML = "<h3>Việc làm hiện tại:</h3>";
+  pendingContainer.innerHTML = "";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+  });
+
+  if (isAdmin) {
+  document.getElementById("adminPanel").style.display = "block";
+} else {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+}
+
+function capNhatGiaoDienNguoiDung() {
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
+
+  const userInfo = document.getElementById("userInfo");
+  const loginLink = document.getElementById("loginLink");
+  const logoutLink = document.getElementById("logoutLink");
+  const registerLink = document.getElementById("registerLink");
+  const dangViecLink = document.getElementById("dangViecLink");
+
+  if (username) {
+    const isAdmin = role === "admin";
+    userInfo.innerHTML = `👤 Xin chào, ${isAdmin ? "admin" : username}`;
+    loginLink.style.display = "none";
+    logoutLink.style.display = "inline-block";
+    registerLink.style.display = "none";
+  } else {
+    userInfo.innerHTML = "";
+    loginLink.style.display = "inline-block";
+    logoutLink.style.display = "none";
+    registerLink.style.display = "inline-block";
+  }
+
+  const vaitro = localStorage.getItem("vaitro");
+  dangViecLink.style.display = vaitro === "nhatuyendung" ? "inline-block" : "none";
+}
+
+
+
+
+function duyetBai(index) {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("Bạn không có quyền duyệt bài.");
+    return;
+  }
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  jobs[index].duyet = true;
+  localStorage.setItem("jobs", JSON.stringify(jobs));
+  alert("Bài đã được duyệt!");
+  location.reload();
+}
+
+function xoaBai(index) {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("Bạn không có quyền xóa bài.");
+    return;
+  }
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const confirmDelete = confirm("Bạn có chắc muốn xóa bài này?");
+  if (confirmDelete) {
+    jobs.splice(index, 1);
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+    alert("Bài đã được xóa!");
+    location.reload();
+  }
+}
+
+function dangXuat() {
+  localStorage.removeItem("role");
+  localStorage.removeItem("username");
+  alert("Đã đăng xuất.");
+  location.reload();
+}
+
+
+
+//localStorage.setItem("role", "admin");
+
+
+
+function hienChiTiet(job) {
+  const url = `chitiet.html?tenCV=${encodeURIComponent(job.tenCV)}&tenCT=${encodeURIComponent(job.tenCT)}&diachi=${encodeURIComponent(job.diachi)}&luong=${encodeURIComponent(job.luong)}&chitiet=${encodeURIComponent(job.chitiet || "")}`;
+  window.location.href = url;
+}
+
+
+function tinhKhoangCach(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+
+
+</script>
+<script>
+let thongBaoMo = false;
+
+function toggleThongBao() {
+  const khung = document.getElementById("khungDuyet");
+  const danhSach = document.getElementById("danhSachTaiKhoan");
+  const role = localStorage.getItem("role");
+
+  if (role !== "admin") {
+    alert("Bạn không có quyền duyệt tài khoản.");
+    return;
+  }
+
+  thongBaoMo = !thongBaoMo;
+  khung.style.display = thongBaoMo ? "block" : "none";
+
+  if (thongBaoMo) {
+    const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+    const chuaDuyet = pendingUsers.filter(u => !u.duyet && !u.tuchoi);
+    danhSach.innerHTML = "";
+
+    if (chuaDuyet.length === 0) {
+      danhSach.innerHTML = "<p style='text-align:center;'>Không có tài khoản nào đang chờ duyệt.</p>";
+    } else {
+chuaDuyet.forEach(user => {
+  const realIndex = pendingUsers.findIndex(u => u.username === user.username && !u.duyet && !u.tuchoi);
+  const div = document.createElement("div");
+  div.style.background = "#fff3e0";
+  div.style.border = "1px solid #ffe0b2";
+  div.style.borderRadius = "6px";
+  div.style.padding = "10px";
+  div.style.marginBottom = "10px";
+  div.innerHTML = `
+    <strong>Tài Khoản:</strong> ${user.username}<br>
+    <strong>Mật Khẩu:</strong> ${user.password}<br>
+    <button onclick="duyetTaiKhoan(${realIndex})" style="background:#4CAF50; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;">✅ Duyệt</button>
+    <button onclick="tuChoiTaiKhoan(${realIndex})" style="background:#e53935; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; margin-left:10px;">❌ Từ chối</button>
+  `;
+  danhSach.appendChild(div);
+});
+
+    }
+  }
+}
+
+function duyetTaiKhoan(index) {
+  const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+  pendingUsers[index].duyet = true;
+  localStorage.setItem("pendingUsers", JSON.stringify(pendingUsers));
+  alert("✅ Đã duyệt tài khoản: " + pendingUsers[index].username);
+  toggleThongBao();
+}
+
+function tuChoiTaiKhoan(index) {
+  const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+  pendingUsers[index].tuchoi = true;
+  localStorage.setItem("pendingUsers", JSON.stringify(pendingUsers));
+  alert("❌ Đã từ chối tài khoản: " + pendingUsers[index].username);
+  toggleThongBao();
+}
+</script>
+
+
+</body>
+</html>
