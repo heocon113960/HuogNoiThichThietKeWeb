@@ -118,7 +118,6 @@ nav {
   background-color: #e6f0ff;
 }
 
-/* Nút đăng ký */
 .nav-right .register {
   text-decoration: none;
   background-color: #0073e6;
@@ -271,6 +270,12 @@ nav {
   background-color: #005bb5;
 }
 
+.delete
+{
+      background-color: red;
+}
+
+
 
   </style>
 
@@ -295,10 +300,17 @@ nav {
       <i class="fas fa-bell"></i>
       <a href="#" id="logoutLink" onclick="dangXuat()" style="display:none;">Đăng Xuất</a>
       <a href="dangnhap.html" id="loginLink" class="login">Đăng Nhập</a>
-      <a href="#" id="registerLink" class="register">Đăng Ký</a>
+      <a href="dangky.html" id="registerLink" class="register">Đăng Ký</a>
     </div>
   </div>
 </nav>
+
+<div onclick="toggleThongBao()" title="Thông báo" style="position:fixed; top:20px; right:30px; font-size:24px; cursor:pointer; z-index:999;">🔔</div>
+<div id="userInfo" style="text-align:center; font-weight:bold; margin:10px 0;"></div>
+<div id="khungDuyet" style="display:none; max-width:500px; margin:80px auto; background:#fff8e1; border:2px solid #ffcc80; border-radius:10px; padding:20px;">
+  <h3 style="text-align:center; color:#ff9800;">📋 Tài khoản chờ duyệt</h3>
+  <div id="danhSachTaiKhoan"></div>
+</div>
 
 <div id="userInfo" style="text-align:center; margin:10px;"></div>
 
@@ -378,15 +390,14 @@ function showSuggestions()
 
 
 function search() {
-  // Ẩn gợi ý khi bắt đầu tìm kiếm
   document.getElementById("suggestions").style.display = "none";
 
   const keyword = document.getElementById("searchInput").value.toLowerCase();
-  const jobItems = document.querySelectorAll(".job-item");
-  let found = false;
+  const jobContainer = document.querySelector(".jobs");
+  jobContainer.innerHTML = "<h3>Kết quả tìm kiếm:</h3>";
 
-  const lat = parseFloat(localStorage.getItem("lat"));
-  const lng = parseFloat(localStorage.getItem("lng"));
+  let lat = parseFloat(localStorage.getItem("lat"));
+  let lng = parseFloat(localStorage.getItem("lng"));
 
   if (isNaN(lat) || isNaN(lng)) {
     if (!viTriDaLay && navigator.geolocation) {
@@ -394,14 +405,15 @@ function search() {
         localStorage.setItem("lat", position.coords.latitude);
         localStorage.setItem("lng", position.coords.longitude);
         viTriDaLay = true;
-        search(); // gọi lại sau khi có vị trí
+        search();
+      }, function(error) {
+        alert("⚠️ Không thể lấy vị trí: " + error.message);
       });
     }
     return;
   }
 
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-
   const filteredJobs = jobs.filter(job =>
     job.tenCV.toLowerCase().includes(keyword) ||
     job.tenCT.toLowerCase().includes(keyword) ||
@@ -414,14 +426,11 @@ function search() {
     return distA - distB;
   });
 
-  const jobContainer = document.querySelector(".jobs");
-  jobContainer.innerHTML = "<h3>Kết quả tìm kiếm:</h3>";
-
   filteredJobs.forEach(job => {
     const div = document.createElement("div");
     div.className = "job-item";
     div.innerHTML = `
-      <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+      <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
       <small>${job.diachi} | Lương: ${job.luong}</small>
     `;
     div.onclick = () => hienChiTiet(job);
@@ -466,29 +475,21 @@ window.onload = function() {
 
     if (job.duyet) {
       div.innerHTML = `
-        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
         <small>${job.diachi} | Lương: ${job.luong}</small>
         ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
       `;
       jobContainer.appendChild(div);
     } else if (isAdmin) {
       div.innerHTML = `
-        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
         <small>${job.diachi} | Lương: ${job.luong}</small><br>
         <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
         <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
       `;
       pendingContainer.appendChild(div);
     }
-   if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    localStorage.setItem("lat", position.coords.latitude);
-    localStorage.setItem("lng", position.coords.longitude);
-    viTriDaLay = true;
-  }, function(error) {
-    console.warn("Không thể lấy vị trí: " + error.message);
-  });
-}
+
 
   });
 
@@ -515,14 +516,14 @@ function renderJobs() {
 
     if (job.duyet) {
       div.innerHTML = `
-        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
         <small>${job.diachi} | Lương: ${job.luong}</small>
         ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
       `;
       jobContainer.appendChild(div);
     } else if (isAdmin) {
       div.innerHTML = `
-        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
         <small>${job.diachi} | Lương: ${job.luong}</small><br>
         <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
         <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
@@ -542,14 +543,17 @@ function renderJobs() {
 function capNhatGiaoDienNguoiDung() {
   const username = localStorage.getItem("username");
   const role = localStorage.getItem("role");
+  const vaitro = localStorage.getItem("vaitro");
 
   const userInfo = document.getElementById("userInfo");
   const loginLink = document.getElementById("loginLink");
   const logoutLink = document.getElementById("logoutLink");
   const registerLink = document.getElementById("registerLink");
+  const dangViecLink = document.getElementById("dangViecLink");
 
   if (username) {
-    userInfo.innerHTML = `<strong>👤 Xin chào, ${username}</strong>`;
+    const isAdmin = role === "admin";
+    userInfo.innerHTML = `👤 Xin chào, ${isAdmin ? "admin" : username}`;
     loginLink.style.display = "none";
     logoutLink.style.display = "inline-block";
     registerLink.style.display = "none";
@@ -559,27 +563,26 @@ function capNhatGiaoDienNguoiDung() {
     logoutLink.style.display = "none";
     registerLink.style.display = "inline-block";
   }
-  const vaitro = localStorage.getItem("vaitro");
-const dangViecLink = document.getElementById("dangViecLink");
 
-if (vaitro === "nhatuyendung") {
-  dangViecLink.style.display = "inline-block";
-} else {
-  dangViecLink.style.display = "none";
+  if (dangViecLink) {
+    if (vaitro === "nhatuyendung") {
+      dangViecLink.style.display = "inline-block";
+      dangViecLink.textContent = "Đăng Việc";
+      dangViecLink.href = "dangviec.html";
+    } else if (vaitro === "nguoitimviec") {
+      dangViecLink.style.display = "inline-block";
+      dangViecLink.textContent = "Tìm Việc";
+      dangViecLink.href = "#"; // hoặc trang tìm việc riêng nếu có
+    } else {
+      dangViecLink.style.display = "none";
+    }
+  }
 }
-
-}
-
 
 
 
 function duyetBai(index) {
   const role = localStorage.getItem("role");
-  if (role !== "admin") {
-    alert("Bạn không có quyền duyệt bài.");
-    return;
-  }
-
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   jobs[index].duyet = true;
   localStorage.setItem("jobs", JSON.stringify(jobs));
@@ -589,11 +592,6 @@ function duyetBai(index) {
 
 function xoaBai(index) {
   const role = localStorage.getItem("role");
-  if (role !== "admin") {
-    alert("Bạn không có quyền xóa bài.");
-    return;
-  }
-
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   const confirmDelete = confirm("Bạn có chắc muốn xóa bài này?");
   if (confirmDelete) {
@@ -610,10 +608,6 @@ function dangXuat() {
   alert("Đã đăng xuất.");
   location.reload();
 }
-
-
-
-//localStorage.setItem("role", "admin");
 
 
 
@@ -637,6 +631,68 @@ function tinhKhoangCach(lat1, lng1, lat2, lng2) {
 
 
 </script>
+<script>
+let thongBaoMo = false;
+
+function toggleThongBao() {
+  const khung = document.getElementById("khungDuyet");
+  const danhSach = document.getElementById("danhSachTaiKhoan");
+  const role = localStorage.getItem("role");
+
+  if (role === "admin") 
+  {
+
+
+  thongBaoMo = !thongBaoMo;
+  khung.style.display = thongBaoMo ? "block" : "none";
+
+  if (thongBaoMo) {
+    const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+    const chuaDuyet = pendingUsers.filter(u => !u.duyet && !u.tuchoi);
+    danhSach.innerHTML = "";
+
+    if (chuaDuyet.length === 0) {
+      danhSach.innerHTML = "<p style='text-align:center;'>Không có tài khoản nào đang chờ duyệt.</p>";
+    } else {
+chuaDuyet.forEach(user => {
+  const realIndex = pendingUsers.findIndex(u => u.username === user.username && !u.duyet && !u.tuchoi);
+  const div = document.createElement("div");
+  div.style.background = "#fff3e0";
+  div.style.border = "1px solid #ffe0b2";
+  div.style.borderRadius = "6px";
+  div.style.padding = "10px";
+  div.style.marginBottom = "10px";
+  div.innerHTML = `
+    <strong>Tài Khoản:</strong> ${user.username}<br>
+    <strong>Mật Khẩu:</strong> ${user.password}<br>
+    <button onclick="duyetTaiKhoan(${realIndex})" style="background:#4CAF50; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;">✅ Duyệt</button>
+    <button onclick="tuChoiTaiKhoan(${realIndex})" style="background:#e53935; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; margin-left:10px;">❌ Từ chối</button>
+  `;
+  danhSach.appendChild(div);
+});
+
+    }
+  }
+}
+}
+
+function duyetTaiKhoan(index) {
+  const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+  pendingUsers[index].duyet = true;
+  localStorage.setItem("pendingUsers", JSON.stringify(pendingUsers));
+  alert("✅ Đã duyệt tài khoản: " + pendingUsers[index].username);
+  toggleThongBao();
+}
+
+function tuChoiTaiKhoan(index) {
+  const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+  pendingUsers[index].tuchoi = true;
+  localStorage.setItem("pendingUsers", JSON.stringify(pendingUsers));
+  alert("❌ Đã từ chối tài khoản: " + pendingUsers[index].username);
+  toggleThongBao();
+}
+</script>
+
 
 </body>
 </html>

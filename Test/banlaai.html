@@ -80,15 +80,12 @@
   </div>
 
   <script>
-    function chonVaiTro(vaiTro) {
-      localStorage.setItem("vaitro", vaiTro);
+function chonVaiTro(vaiTro) {
+  localStorage.setItem("vaitro", vaiTro);
+  window.location.href = "test.html";
+}
 
-      if (vaiTro === "nguoitimviec") {
-        window.location.href = "test.html";
-      } else if (vaiTro === "nhatuyendung") {
-        window.location.href = "test.html";
-      }
-    }
+
   </script>
 </body>
 </html>

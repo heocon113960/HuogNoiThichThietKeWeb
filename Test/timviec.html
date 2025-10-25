@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>NOVUS - Tìm Việc Làm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #D9D9D9;
+    }
+
+    header {
+      position: absolute;
+      width: 1920px;
+      height: 97px;
+      background: #F2F2F2;
+    }
+
+    .nav {
+      position: absolute;
+      top: 30px;
+      left: 532px;
+      display: flex;
+      gap: 40px;
+      font-size: 30px;
+      font-weight: 200;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #000;
+    }
+
+    .logo {
+      position: absolute;
+      top: 36px;
+      left: 92px;
+      font-size: 48px;
+      font-weight: 700;
+      color: #575757;
+    }
+
+    .search-section {
+      position: absolute;
+      top: 156px;
+      left: 68px;
+      width: 1783px;
+      height: 346px;
+      background: #F2F2F2;
+      border-radius: 20px;
+    }
+
+    .search-title {
+      position: absolute;
+      top: 190px;
+      left: 95px;
+      font-size: 90px;
+      font-weight: 600;
+      color: #000;
+    }
+
+    .search-subtitle {
+      position: absolute;
+      top: 315px;
+      left: 95px;
+      font-size: 50px;
+      font-weight: 400;
+      color: #5A5A5A;
+    }
+
+    .search-bar {
+      position: absolute;
+      top: 743px;
+      left: 282px;
+      width: 1356px;
+      height: 77px;
+      background: #EBEBEB;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      padding-left: 30px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      width: 100%;
+      outline: none;
+    }
+
+    .search-button {
+      position: absolute;
+      top: 753px;
+      left: 1451px;
+      width: 178px;
+      height: 58px;
+      background: #A7A7A7;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+      font-style: italic;
+      cursor: pointer;
+    }
+
+    .job-list {
+      position: absolute;
+      top: 908px;
+      left: 508px;
+      width: 1350px;
+      background: #EBEBEB;
+      border-radius: 50px;
+      padding: 40px;
+    }
+
+    .job-list h3 {
+      font-size: 40px;
+      font-weight: 500;
+      color: #0C0C0C;
+      margin-bottom: 20px;
+    }
+
+    .job-item {
+      background: #D9D9D9;
+      border-radius: 30px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .job-item strong {
+      font-size: 24px;
+    }
+
+    .job-item small {
+      display: block;
+      margin-top: 8px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .pagination {
+      position: absolute;
+      top: 2223px;
+      left: 901px;
+      width: 564px;
+      height: 38px;
+      background: #EBEBEB;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pagination span {
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .pagination .active {
+      background: #2C2C2C;
+      color: #F5F5F5;
+    }
+
+    .filter-box {
+      position: absolute;
+      top: 908px;
+      left: 22px;
+      width: 465px;
+      height: 1386px;
+      background: #EBEBEB;
+      border-radius: 50px;
+      padding: 40px;
+    }
+
+    .filter-box h2 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #575757;
+      margin-bottom: 20px;
+    }
+
+    .filter-box label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 400;
+      font-size: 16px;
+      color: #1E1E1E;
+    }
+
+    .filter-box input,
+    .filter-box select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .filter-box button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      background: #14AE5C;
+      color: white;
+      font-weight: 900;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    body {
+  transform: scale(0.75);
+  transform-origin: top left;
+}
+
+  </style>
+</head>
+<body>
+  <header></header>
+  <div class="logo">NOVUS</div>
+  <div class="nav">
+    <a href="#">Trang chủ</a>
+    <a href="#">Blog</a>
+    <a href="#">Tìm việc</a>
+  </div>
+
+  <div class="search-section"></div>
+  <div class="search-title">TÌM VIỆC LÀM</div>
+  <div class="search-subtitle">tìm kiếm một công việc phù hợp với nhu cầu của bạn</div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Tìm kiếm">
+  </div>
+  <div class="search-button">SEARCH</div>
+
+  <div class="filter-box">
+    <h2>FILTER</h2>
+    <label>Từ khóa</label>
+    <input type="text">
+    <label>Địa điểm</label>
+    <select>
+      <option>Hồ Chí Minh</option>
+      <option>Hà Nội</option>
+      <option>Đà Nẵng</option>
+    </select>
+    <label>Cấp độ</label>
+    <select>
+      <option>Intern</option>
+      <option>Fresher</option>
+      <option>Junior</option>
+      <option>Senior</option>
+    </select>
+    <label>Lương tối thiểu</label>
+    <input type="range" min="0" max="100">
+    <label><input type="checkbox"> Remote</label>
+    <button>Áp dụng filter</button>
+  </div>
+
+  <div class="job-list">
+    <h3>Công việc mới nhất</h3>
+    <div class="job-item">
+      <strong>Nhân viên Marketing</strong>
+      <small>Công ty ABC | Hồ Chí Minh | Lương: 15 triệu</small>
+    </div>
+    <div class="job-item">
+      <strong>Lập trình viên Frontend</strong>
+      <small>Công ty XYZ | Hà Nội | Lương: 20 triệu</small>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <span class="active">1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>Tiếp</span>
+  </div>
+</body>
+</html>
+
+
+<script>
+function renderJobs(jobs) {
+  const jobList = document.querySelector(".job-list");
+  jobList.innerHTML = "<h3>Công việc mới nhất</h3>";
+  if (jobs.length === 0) {
+    jobList.innerHTML += "<p>Không tìm thấy công việc phù hợp.</p>";
+    return;
+  }
+  jobs.forEach(job => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.innerHTML = `
+      <strong>${job.tenCV}</strong><br>
+      <small>${job.tenCT} | ${job.diachi} | Lương: ${job.luong}</small>
+    `;
+    div.onclick = () => hienChiTiet(job);
+    jobList.appendChild(div);
+  });
+}
+
+function timKiem() {
+  const keyword = document.querySelector(".search-bar input").value.toLowerCase();
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const filtered = jobs.filter(job =>
+    job.tenCV.toLowerCase().includes(keyword) ||
+    job.tenCT.toLowerCase().includes(keyword) ||
+    job.diachi.toLowerCase().includes(keyword)
+  );
+  renderJobs(filtered);
+}
+
+function apDungFilter() {
+  const kw = document.getElementById("filterKeyword")?.value.toLowerCase() || "";
+  const loc = document.getElementById("filterLocation")?.value || "";
+  const level = document.getElementById("filterLevel")?.value || "";
+  const salary = parseInt(document.getElementById("filterSalary")?.value || "0");
+  const remote = document.getElementById("filterRemote")?.checked;
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const filtered = jobs.filter(job => {
+    return (!kw || job.tenCV.toLowerCase().includes(kw) || job.tenCT.toLowerCase().includes(kw)) &&
+           (!loc || job.diachi.includes(loc)) &&
+           (!level || job.ttln === level) &&
+           (!salary || parseInt(job.luong) >= salary) &&
+           (!remote || job.remote === true);
+  });
+
+  renderJobs(filtered);
+}
+
+function hienChiTiet(job) {
+  const url = `chitiet.html?tenCV=${encodeURIComponent(job.tenCV)}&tenCT=${encodeURIComponent(job.tenCT)}&diachi=${encodeURIComponent(job.diachi)}&luong=${encodeURIComponent(job.luong)}&chitiet=${encodeURIComponent(job.chitiet || "")}`;
+  window.location.href = url;
+}
+
+window.onload = () => {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  renderJobs(jobs.filter(j => j.duyet));
+};
+</script>
+
+</body>
+</html>

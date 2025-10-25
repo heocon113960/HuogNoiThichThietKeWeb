@@ -81,6 +81,7 @@
   <p><strong>Địa điểm:</strong> <span id="diachi"></span></p>
   <p><strong>Lương:</strong> <span id="luong"></span></p>
   <p><strong>Chi tiết:</strong> <span id="chitiet"></span></p>
+  <p><strong>Thông tin liên hệ:</strong> <span id="ttln"></span></p>
   <button onclick="nhanViec()">✅ Nhận việc</button>
 </div>
 
@@ -95,6 +96,7 @@
   document.getElementById("diachi").textContent = params.get("diachi");
   document.getElementById("luong").textContent = params.get("luong");
   document.getElementById("chitiet").textContent = params.get("chitiet");
+  document.getElementById("ttln").textContent = params.get("ttln");
 
   function nhanViec() {
     alert("Bạn đã nhận việc: " + params.get("tenCV") + " tại " + params.get("tenCT"));

@@ -46,19 +46,35 @@
   </div>
 
   <script>
-    function dangNhap() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
 
-      if (user === "admin" && pass === "123456") {
-        localStorage.setItem("role", "admin");
-        localStorage.setItem("username", user); // lưu tên tài khoản
-        alert("Đăng nhập thành công!");
-        window.location.href = "test.html";
-      } else {
-        alert("Sai tài khoản hoặc mật khẩu.");
-      }
-    }
-  </script>
+function dangNhap() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+
+  const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+
+  // Đăng nhập cứng cho admin
+  if (user === "admin" && pass === "123456") {
+    localStorage.setItem("role", "admin");
+    localStorage.setItem("username", user);
+    alert("Đăng nhập thành công!");
+    window.location.href = "test.html";
+    return;
+  }
+
+  // Đăng nhập từ danh sách đã duyệt
+  const found = pendingUsers.find(u => u.username === user && u.password === pass && u.duyet);
+
+  if (found) {
+    localStorage.setItem("role", "user");
+    localStorage.setItem("username", user);
+    alert("Đăng nhập thành công!");
+    window.location.href = "test.html";
+  } else {
+    alert("Sai tài khoản, mật khẩu hoặc tài khoản chưa được duyệt.");
+  }
+}
+</script>
+
 </body>
 </html>

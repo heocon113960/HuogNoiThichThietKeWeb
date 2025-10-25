@@ -162,6 +162,10 @@
     <label for="chitiet">Thông tin chi tiết</label>
     <textarea id="chitiet" placeholder="Mô tả công việc, yêu cầu, quyền lợi..." rows="5"></textarea>
 
+    <label for="ttlh">Thông tin liên hệ</label>
+    <input type="text" id="ttln" placeholder="Email hoặc Số Điện Thoại" required>
+
+
     <button type="submit">Đăng tuyển</button>
   </form>
   <p class="note">Thông tin sẽ được hiển thị ngay sau khi đăng.</p>
@@ -179,6 +183,7 @@ document.getElementById("postJobForm").onsubmit = function(e) {
   const diachi = document.getElementById("diachi");
   const luong = document.getElementById("luong");
   const chitiet = document.getElementById("chitiet");
+  const ttln = document.getElementById("ttln");
 
   let hasError = false;
 
@@ -211,6 +216,7 @@ document.getElementById("postJobForm").onsubmit = function(e) {
     lng: parseFloat(lng),
     luong: luong.value.trim(),
     chitiet: chitiet.value.trim(),
+    ttln: ttln.value.trim(),
     duyet: false
   };
 
@@ -225,6 +231,7 @@ document.getElementById("postJobForm").onsubmit = function(e) {
     `- Địa điểm: ${job.diachi || "Không có"}\n` +
     `- Lương: ${job.luong}\n` +
     `- Thông tin chi tiết: ${job.chitiet}\n\n` +
+  `- Thông tin liên hệ: ${job.ttln}\n\n`+
     `Trạng thái: Chờ duyệt`
   );
 
