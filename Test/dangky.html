@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng ký tài khoản</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 60px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0073e6;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+    select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #fff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658c-.566-.64-.106-1.658.753-1.658h9.592c.86 0 1.32 1.018.753 1.658l-4.796 5.482a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Đăng ký tài khoản</h2>
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Tên đăng nhập" required>
+      <input type="password" id="password" placeholder="Mật khẩu" required>
+<select id="vaitro" required>
+  <option value="">-- Chọn vai trò --</option>
+  <option value="nguoitimviec">Người tìm việc</option>
+  <option value="nhatuyendung">Nhà tuyển dụng</option>
+</select>
+
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="otp" placeholder="Nhập mã OTP" style="display:none;">
+      <button type="submit">Gửi mã OTP</button>
+    </form>
+    <p class="note">Thông tin sẽ được gửi đến quản trị viên để xác nhận.</p>
+    <div id="message"></div>
+  </div>
+
+<script>
+  let generatedOTP = "";
+
+  document.getElementById("registerForm").onsubmit = function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const otpInput = document.getElementById("otp");
+    const button = document.querySelector("button");
+    const message = document.getElementById("message");
+
+    if (otpInput.value.trim() === generatedOTP) {
+  const vaitro = document.getElementById("vaitro").value;
+  if (!vaitro) {
+    message.innerHTML = `<p class="error">❌ Vui lòng chọn vai trò trước khi đăng ký.</p>`;
+    return;
+  }
+
+  const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+  pendingUsers.push({ username, email, password, vaitro, duyet: false });
+  localStorage.setItem("pendingUsers", JSON.stringify(pendingUsers));
+
+  message.innerHTML = `<p class="success">✅ Đăng ký thành công! Chờ quản trị viên xác nhận.</p>`;
+  document.getElementById("registerForm").reset();
+  otpInput.style.display = "none";
+  button.textContent = "Gửi mã OTP";
+  window.location.href = "test.html";
+}
+ else {
+        message.innerHTML = `<p class="error">❌ Mã OTP không đúng. Vui lòng thử lại.</p>`;
+      }
+    }
+</script>
+</body>
+</html>

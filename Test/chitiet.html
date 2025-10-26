@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiết công việc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+    }
+
+    header {
+      background-color: #0073e6;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #0073e6;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    strong {
+      color: #555;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #388e3c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Chi tiết công việc</h1>
+</header>
+
+<div class="container">
+  <h2 id="tenCV">...</h2>
+  <p><strong>Công ty:</strong> <span id="tenCT"></span></p>
+  <p><strong>Địa điểm:</strong> <span id="diachi"></span></p>
+  <p><strong>Lương:</strong> <span id="luong"></span></p>
+  <p><strong>Chi tiết:</strong> <span id="chitiet"></span></p>
+  <p><strong>Thông tin liên hệ:</strong> <span id="ttln"></span></p>
+  <button onclick="nhanViec()">✅ Nhận việc</button>
+</div>
+
+<footer>
+  &copy; 2025 TMTeam | Liên hệ: 0368284041 | Email: ricute069@gmail.com
+</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById("tenCV").textContent = params.get("tenCV");
+  document.getElementById("tenCT").textContent = params.get("tenCT");
+  document.getElementById("diachi").textContent = params.get("diachi");
+  document.getElementById("luong").textContent = params.get("luong");
+  document.getElementById("chitiet").textContent = params.get("chitiet");
+  document.getElementById("ttln").textContent = params.get("ttln");
+
+  function nhanViec() {
+    alert("Bạn đã nhận việc: " + params.get("tenCV") + " tại " + params.get("tenCT"));
+  }
+</script>
+
+</body>
+</html>
