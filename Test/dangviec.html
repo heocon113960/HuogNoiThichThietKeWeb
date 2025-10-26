@@ -152,6 +152,7 @@
       <input type="text" id="diachi" placeholder="VD: 60/18A Huỳnh Khương An" />
       <ul id="suggestions"></ul>
     </div>
+<button type="button" onclick="layViTriHienTai()" style="margin-top:10px;">📍 Chọn vị trí hiện tại</button>
 
     <input type="hidden" id="lat">
     <input type="hidden" id="lng">
@@ -175,6 +176,35 @@
 
 
 <script>
+  function layViTriHienTai() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const lat = position.coords.latitude.toFixed(6);
+      const lng = position.coords.longitude.toFixed(6);
+
+      document.getElementById("lat").value = lat;
+      document.getElementById("lng").value = lng;
+
+      const latlng = L.latLng(lat, lng);
+      map.setView(latlng, 15);
+
+      if (marker) {
+        marker.setLatLng(latlng);
+      } else {
+        marker = L.marker(latlng).addTo(map);
+      }
+
+      marker.bindPopup(`Vị trí hiện tại:<br>Lat: ${lat}<br>Lng: ${lng}`).openPopup();
+
+      layDiaChiTuToaDo(lat, lng);
+    }, function(error) {
+      alert("Không thể lấy vị trí: " + error.message);
+    });
+  } else {
+    alert("Trình duyệt không hỗ trợ định vị.");
+  }
+}
+
 document.getElementById("postJobForm").onsubmit = function(e) {
   e.preventDefault();
 
@@ -295,21 +325,24 @@ map.on('click', function(e) {
 </script>
 
 <script>
-document.getElementById("diachi").addEventListener("input", function() {
+function tinhKhoangCach(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+document.getElementById("diachi").addEventListener("input", function () {
   const query = this.value.trim();
   const suggestionsList = document.getElementById("suggestions");
+  const lat = parseFloat(document.getElementById("lat").value);
+  const lng = parseFloat(document.getElementById("lng").value);
 
-  const lat = document.getElementById("lat").value;
-  const lng = document.getElementById("lng").value;
-
-  // Nếu đã chọn tọa độ rồi thì không hiển thị gợi ý nữa
-  if (lat && lng) {
-    suggestionsList.innerHTML = "";
-    suggestionsList.style.display = "none";
-    return;
-  }
-
-  if (query.length < 3) {
+  if ((lat && lng) || query.length < 3) {
     suggestionsList.innerHTML = "";
     suggestionsList.style.display = "none";
     return;
@@ -317,23 +350,38 @@ document.getElementById("diachi").addEventListener("input", function() {
 
   suggestionsList.style.display = "block";
 
-  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5&countrycodes=vn`)
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=10&countrycodes=vn`)
     .then(response => response.json())
     .then(data => {
       const allowedProvinces = ["Hồ Chí Minh", "Cần Thơ", "Bình Dương", "Đồng Nai", "Vũng Tàu", "Long An", "Tiền Giang", "Bến Tre"];
       const filtered = data.filter(place => {
         const addrText = place.display_name.toLowerCase();
         const inputText = query.toLowerCase();
+        const hasStreet = place.address.road || place.address.street || place.address.house_number;
         const isInAllowedProvince = allowedProvinces.some(p => Object.values(place.address).join(" ").includes(p));
-        const isExactSequenceMatch = addrText.includes(inputText);
-        return isInAllowedProvince && isExactSequenceMatch;
+        const isMatch = addrText.includes(inputText);
+        return isInAllowedProvince && isMatch && hasStreet;
       });
+
+      if (!filtered.length) {
+        suggestionsList.innerHTML = "<li>Không tìm thấy địa chỉ phù hợp.</li>";
+        return;
+      }
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+        filtered.sort((a, b) => {
+          const distA = tinhKhoangCach(lat, lng, parseFloat(a.lat), parseFloat(a.lon));
+          const distB = tinhKhoangCach(lat, lng, parseFloat(b.lat), parseFloat(b.lon));
+          return distA - distB;
+        });
+      }
 
       suggestionsList.innerHTML = "";
 
       filtered.forEach(place => {
         const li = document.createElement("li");
-        li.textContent = place.display_name;
+        const parts = place.display_name.split(",");
+        li.innerHTML = `<strong>${parts[0]}</strong><br><small>${parts.slice(1).join(",")}</small>`;
 
         li.onclick = () => {
           document.getElementById("diachi").value = place.display_name;
@@ -357,7 +405,16 @@ document.getElementById("diachi").addEventListener("input", function() {
     });
 });
 
+// Tự động chọn gợi ý đầu tiên khi nhấn Enter
+document.getElementById("diachi").addEventListener("keydown", function (e) {
+  const suggestionsList = document.getElementById("suggestions");
+  if (e.key === "Enter" && suggestionsList.firstChild) {
+    e.preventDefault();
+    suggestionsList.firstChild.click();
+  }
+});
 </script>
+
 
 </body>
 </html>

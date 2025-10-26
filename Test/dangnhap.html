@@ -53,7 +53,7 @@ function dangNhap() {
 
   const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
 
-  // Đăng nhập cứng cho admin
+
   if (user === "admin" && pass === "123456") {
     localStorage.setItem("role", "admin");
     localStorage.setItem("username", user);
@@ -65,14 +65,21 @@ function dangNhap() {
   // Đăng nhập từ danh sách đã duyệt
   const found = pendingUsers.find(u => u.username === user && u.password === pass && u.duyet);
 
-  if (found) {
-    localStorage.setItem("role", "user");
-    localStorage.setItem("username", user);
-    alert("Đăng nhập thành công!");
+if (found) {
+  localStorage.setItem("role", "user");
+  localStorage.setItem("username", user);
+  localStorage.setItem("vaitro", found.vaitro); // Ghi nhớ vai trò
+  alert("Đăng nhập thành công!");
+
+  if (found.vaitro === "nguoitimviec") {
+    window.location.href = "timviec.html";
+  } else if (found.vaitro === "nhatuyendung") {
     window.location.href = "test.html";
   } else {
-    alert("Sai tài khoản, mật khẩu hoặc tài khoản chưa được duyệt.");
+    alert("Không xác định được vai trò người dùng.");
   }
+}
+
 }
 </script>
 

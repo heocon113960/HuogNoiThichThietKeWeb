@@ -275,15 +275,41 @@ nav {
       background-color: red;
 }
 
+#test
+{
+  text-decoration: underline;
+  color: inherit;
+}
+header {
+  position: relative;
+  background-color: #0073e6;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
 
+.header-left {
+  position: absolute;
+  top: 35px;
+  left: 15px;
+}
 
-  </style>
+.header-left a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+ </style>
 
 </head>
 <body>
- <header>
-  <p>Nền tảng tìm người tìm việc nhanh chóng & miễn phí</p>
+<header>
+  <div class="header-left">
+    <a href="banlaai.html" id="banlaai">Chọn Nhu Cầu</a>
+  </div>
+  <p id="nentang">  Nền tảng tìm người tìm việc nhanh chóng & miễn phí</p>
 </header>
+
 
 <nav>
   <div class="nav-container">
@@ -291,7 +317,8 @@ nav {
       <span class="logo">TMTeam</span>
     </div>
     <div class="nav-center">
-      <a href="#">Trang Chủ</a>
+ 
+      <a href="test.html" id="test">Trang Chủ</a>
       <a href="#">Blog</a>
       <a href="dangviec.html" id="dangViecLink" style="display:none;">Đăng Việc</a>
 
@@ -312,7 +339,7 @@ nav {
   <div id="danhSachTaiKhoan"></div>
 </div>
 
-<div id="userInfo" style="text-align:center; margin:10px;"></div>
+<div id="userInfo" style="text-align:center;"></div>
 
 
   <div class="banner">
@@ -461,6 +488,7 @@ function updateJobList() {
   let viTriDaLay = false;
 
 window.onload = function() {
+  
   capNhatGiaoDienNguoiDung();
 
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
@@ -572,7 +600,7 @@ function capNhatGiaoDienNguoiDung() {
     } else if (vaitro === "nguoitimviec") {
       dangViecLink.style.display = "inline-block";
       dangViecLink.textContent = "Tìm Việc";
-      dangViecLink.href = "#"; // hoặc trang tìm việc riêng nếu có
+      dangViecLink.href = "timviec.html";
     } else {
       dangViecLink.style.display = "none";
     }
@@ -678,11 +706,24 @@ chuaDuyet.forEach(user => {
 
 function duyetTaiKhoan(index) {
   const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
+
+  // Gán vai trò mặc định nếu chưa có
+  if (!pendingUsers[index].vaitro) {
+    const chon = prompt("Nhập vai trò cho tài khoản này (nguoitimviec / nhatuyendung):");
+    if (chon === "nguoitimviec" || chon === "nhatuyendung") {
+      pendingUsers[index].vaitro = chon;
+    } else {
+      alert("Vai trò không hợp lệ.");
+      return;
+    }
+  }
+
   pendingUsers[index].duyet = true;
   localStorage.setItem("pendingUsers", JSON.stringify(pendingUsers));
   alert("✅ Đã duyệt tài khoản: " + pendingUsers[index].username);
   toggleThongBao();
 }
+
 
 function tuChoiTaiKhoan(index) {
   const pendingUsers = JSON.parse(localStorage.getItem("pendingUsers")) || [];
