@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <title>
+        dang_tai_bai_viet
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <link rel="stylesheet" href="taobaidang.css">
+    <section id ="dangbai">
+    <header>
+        <h1>TẠO BÀI VIẾT</h1>
+        <button class="canle" id ="dongbai" onclick ="window.location.href = 'index.html'"><img src = " c:\Users\Admin\Downloads\istockphoto-953455676-612x612.jpg" title="Quay lại blog"></button>
+    </header>
+
+    <div class="canle">
+        <textarea id ="baidang"  placeholder="Viết gì đó..."></textarea>
+    </div>
+    <br>
+   
+        <form class="canle">
+<input id = "dangtai" type = "submit" value = "Đăng tải">
+        </form>
+    </section>
+    <script>
+        const baidang = document.getElementById("baidang");
+        const dangtai = document.getElementById("dangtai");
+        dangtai.addEventListener("click", kiemtra);
+        function kiemtra (kiemtra)
+        {
+           kiemtra.preventDefault();  
+            if (baidang.value.trim()==="")
+        {
+            alert("Vui lòng nhập nội dung");
+        return false;
+        }
+        else
+        {
+        const baiviet =
+        {
+            nd : baidang.value.trim(),
+            thoigian : new Date().toLocaleString()
+        };
+        const danhsach = JSON.parse(localStorage.getItem("danhsachbaiviet")||'[]');
+        danhsach.push(baiviet);
+        localStorage.setItem("danhsachbaiviet", JSON.stringify(danhsach));
+            alert ("Đăng tải thành công");
+            return true;
+        }
+    }
+    </script>
+    </body>
+</html>

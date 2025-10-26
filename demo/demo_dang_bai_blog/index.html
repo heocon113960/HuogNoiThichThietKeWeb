@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVUS Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <input type="checkbox" id="sidebar-toggle" hidden>
+    <div class="sidebar">
+        <div class="sidebar-items">
+            <div>DEMO</div>
+            <div>DEMO</div>
+            <div>DEMO</div>
+            <div>DEMO</div>
+            <div>DEMO</div>
+            <div>DEMO</div>
+        </div>
+        <label for="sidebar-toggle" class="close-sidebar">&#x203A;</label>
+    </div>
+    <div class="container">
+        <header class="main-header">
+            <label for="sidebar-toggle" class="menu-circle">
+                <span class="menu-icon">&#9776;</span>
+            </label>
+            <span class="logo">NOVUS</span>
+            <nav class="main-nav">
+                <a href="#">Trang chủ</a>
+                <a href="#" class="active">Blog</a>
+                <a href="#">Tìm việc</a>
+            </nav>
+            <div class="header-right">
+                <span class="bell">&#128276;</span>
+                <button class="btn">Đăng Nhập</button>
+                <button class="btn">Đăng Ký</button>
+                <div class="user-dropdown">
+                    <input type="checkbox" id="user-toggle" hidden>
+                    <label for="user-toggle" class="user-btn">Bạn &#9660;</label>
+                    <div class="user-menu">
+                        <div class="user-menu-tabs">
+                            <span class="tab active">Bạn</span>
+                            <span class="tab">Bùi Công Tiển</span>
+                        </div>
+                        <a href="#">Hồ sơ người dùng <span class="arrow">&#x203A;</span></a>
+                        <a href="#">Đóng góp ý kiến <span class="arrow">&#x203A;</span></a>
+                        <a href="#">Trợ giúp và hỗ trợ <span class="arrow">&#x203A;</span></a>
+                        <a href="#">Cài đặt <span class="arrow">&#x203A;</span></a>
+                        <a href="#">Đăng xuất <span class="arrow">&#x203A;</span></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="search-bar">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" placehAolder="Tìm kiếm trên NOVUS">
+        </div>
+        <button onclick="window.location.href ='dangtaibaiviet.html'" class ="canle"><img class ="canle" src = "https://png.pngtree.com/png-clipart/20190520/original/pngtree-vector-plus-icon-png-image_4187250.jpg" title="Tạo bài viết"></button>
+        <main>
+            <section class="blog-card">
+                <input type="checkbox" id="card-toggle" hidden>
+                <div class="blog-card-header">
+                    <label for="card-toggle" class="card-toggle-btn">
+                        <span class="card-svg">
+                            <svg width="32" height="32" viewBox="0 0 32 32">
+                                <rect x="6" y="8" width="16" height="16" rx="5" fill="none" stroke="#222" stroke-width="2"/>
+                                <rect x="10" y="4" width="16" height="16" rx="5" fill="none" stroke="#222" stroke-width="2"/>
+                            </svg>
+                        </span>
+                        <span class="card-arrow">&#9650;</span> <!-- Mũi tên hướng lên -->
+                    </label>
+                    <div class="blog-avarta">avarta</div>
+                    <div class="blog-info">
+                        <strong>Tên người dùng</strong>
+                        <span>• 1000 năm trước • Phổ biến</span>
+                    </div>
+                    <span class="blog-more">&#8942;</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-summary">
+                        Nội dung tiêu đề
+                    </div>
+                </div>
+                <div id = "khuvucbaiviet"></div>
+                <div class="blog-actions">
+                    <div class="action">
+                        <span>&#128078;</span>
+                        <span>1</span>
+                    </div>
+                    <div class="action">
+                        <span>&#128172;</span>
+                        <span>128</span>
+                    </div>
+                    <div class="action">
+                        <span>&#10150;</span>
+                        <span>128</span>
+                    </div>
+                    <div class="action">
+                        <span class="bookmark">&#128278;</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        const danhsachbaiviet = JSON.parse(localStorage.getItem("danhsachbaiviet")||'[]');
+        const khuvucbaiviet = document.getElementById("khuvucbaiviet");
+        danhsachbaiviet.forEach(element => {
+            const baimoi = document.createElement("div");
+            const xuongdong = document.createElement("br");
+            baimoi.textContent= element.nd + "("+element.thoigian+")";
+            khuvucbaiviet.appendChild(baimoi);
+            khuvucbaiviet.appendChild(xuongdong);
+        });
+    </script>
+</body>
+</html>
