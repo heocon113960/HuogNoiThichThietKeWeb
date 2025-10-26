@@ -276,6 +276,17 @@ nav {
 .search-box button:hover {
   background-color: #005bb5;
 }
+
+#cvmt
+{
+  background-color: #ffe0b2;
+  padding-top:25px;
+  padding-bottom: 25px;
+  padding-left: 10px;
+  border-radius: 15px;
+}
+
+
   </style>
 </head>
 <body>
@@ -321,15 +332,39 @@ nav {
   <button onclick="search()">Tìm kiếm</button>
 </div>
 <ul id="suggestions" style="max-width:400px; margin:auto; list-style:none; padding:0; background:#fff; border:1px solid #ccc; border-radius:4px;"></ul>
-<div class="jobs" id="jobList">
-  <h3>Công việc mới nhất:</h3>
-</div>
+<table border="0" style="width:100%;">
+  <tr>
+    <td style="vertical-align: top; width:30%;">
+      <div id="filterBox1" style="background:#e0f7fa; padding:10px;margin-top:37.5px;border-radius:10px;">
+        <center><h3>FILTER</h3></center>
+      </div>
+        <div id="filterBox" style="background:#FFDEEA; padding:10px; border-radius:40px;">
+        <center><h3>Lọc theo Vị Trí</h3></center>
+      </div>
+            </div>
+        <div id="filterBox2" style="background:#92deef; padding:10px; border-radius:40px;">
+        <center><h3>Lọc theo Công Việc</h3></center>
+              <div id="filterBoxCV"></div>
+      </div>
 
 
+    </td>
 
-<div id="jobDetail" style="max-width:600px; margin:20px auto; padding:20px; border:1px solid #ccc; border-radius:10px; background:#f9f9f9; display:none;"></div>
+    <td colspan="2" rowspan="2" style="vertical-align: top;">
+      <div class="jobs" id="jobList">
+        <h3 id="cvmt">Công Việc Mới Nhất:</h3>
+      </div>
 
-</div>
+      <div id="jobDetail" style="max-width:600px; margin:20px auto; padding:20px; border:1px solid #ccc; border-radius:10px; background:#f9f9f9; display:none;"></div>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">Row 2, Cell 1</td>
+  </tr>
+</table>
+
+
 
   <footer>
     &copy; 2025 TMTeam | Liên hệ:0368284041 | Email:ricute069@gmail.com  
@@ -337,6 +372,10 @@ nav {
 
  <script>
 let viTriDaLay = false;
+window.onload = function() {
+  taoFilterTinhThanh();
+  taoFilterCongViec();
+};
 
 window.addEventListener("load", () => {
   const vaitro = localStorage.getItem("vaitro");
@@ -407,24 +446,50 @@ function hienDanhSachMoiNhat() {
 
 function renderJobs(jobs) {
   const jobList = document.getElementById("jobList");
-  jobList.innerHTML = "<h3>Công Việc Mới Nhất:</h3>";
+  //jobList.innerHTML = "<h3>Công Việc Mới Nhất:</h3>";
 
   if (jobs.length === 0) {
     jobList.innerHTML += "<p>Không tìm thấy công việc phù hợp.</p>";
     return;
   }
 
-  jobs.forEach(job => {
-    const div = document.createElement("div");
-    div.className = "job-item";
-    div.innerHTML = `
-      <strong>${job.tenCV}</strong><br>
-      <small>${job.tenCT} | ${job.diachi} | Lương: ${job.luong}</small>
-    `;
-    div.onclick = () => hienChiTiet(job);
-    jobList.appendChild(div);
-  });
+// Tạo bảng chứa danh sách công việc
+const table = document.createElement("table");
+table.style.width = "100%";
+table.style.borderCollapse = "collapse";
+
+// Tạo tiêu đề bảng
+const thead = document.createElement("thead");
+thead.innerHTML = `
+  <tr style="background-color:#f0f0f0;">
+    <th style="padding:8px; border:1px solid #ccc;">Công Việc</th>
+    <th style="padding:8px; border:1px solid #ccc;">Thông Tin</th>
+    <th style="padding:8px; border:1px solid #ccc;">Lương</th>
+  </tr>
+`;
+table.appendChild(thead);
+
+// Tạo phần thân bảng
+const tbody = document.createElement("tbody");
+
+jobs.forEach(job => {
+  const row = document.createElement("tr");
+  row.style.cursor = "pointer";
+  row.onclick = () => hienChiTiet(job);
+
+  row.innerHTML = `
+    <td style="padding:8px; border:1px solid #ccc;"><strong>${job.tenCV}</strong></td>
+    <td style="padding:8px; border:1px solid #ccc;">${job.tenCT} - ${job.ttln}<br><small>${job.diachi}</small></td>
+    <td style="padding:8px; border:1px solid #ccc;">${job.luong}</td>
+  `;
+
+  tbody.appendChild(row);
+});
+
+table.appendChild(tbody);
+jobList.appendChild(table);
 }
+
 
 function hienChiTiet(job) {
   const url = `chitiet.html?tenCV=${encodeURIComponent(job.tenCV)}&tenCT=${encodeURIComponent(job.tenCT)}&diachi=${encodeURIComponent(job.diachi)}&luong=${encodeURIComponent(job.luong)}&chitiet=${encodeURIComponent(job.chitiet || "")}`;
@@ -475,12 +540,48 @@ function updateJobList() {
 }
 
 function search() {
-  document.getElementById("suggestions").style.display = "none";
+const selectedCV = document.querySelector('input[name="congViecFilter"]:checked')?.value.toLowerCase() || "";
+
+
+ const selectedTinh = document.querySelector('input[name="tinhThanhFilter"]:checked')?.value || "";
+
+
 
   const keyword = document.getElementById("searchInput").value.toLowerCase();
   const jobContainer = document.querySelector(".jobs");
-  jobContainer.innerHTML = "<h3>Công Việc Gần Nhất:</h3>";
 
+  jobContainer.innerHTML = "<br>";
+
+  const header = document.createElement("div");
+  header.id = "cvmn";
+  header.style.backgroundColor = "#ffe0b2";
+  header.style.paddingTop = "6px";
+  header.style.paddingBottom = "7px";
+  header.style.paddingLeft = "10px";
+  header.style.borderRadius = "15px";
+  header.innerHTML = "<h3>Công Việc Gần Nhất:</h3>";
+  jobContainer.appendChild(header);
+// Thêm khoảng trắng giữa header và bảng
+const spacer = document.createElement("div");
+spacer.style.height = "8.5px"; // hoặc 15px tùy bạn muốn khoảng cách bao nhiêu
+jobContainer.appendChild(spacer);
+
+  const table = document.createElement("table");
+  table.style.width = "100%";
+  table.style.borderCollapse = "collapse";
+  table.style.marginTop = "10px";
+
+  const thead = document.createElement("thead");
+  thead.innerHTML = `
+    <tr style="background-color:#f0f0f0;">
+      <th style="padding:8px; border:1px solid #ccc;">Công Việc</th>
+      <th style="padding:8px; border:1px solid #ccc;">Thông Tin</th>
+      <th style="padding:8px; border:1px solid #ccc;">Lương</th>
+    </tr>
+  `;
+  table.appendChild(thead);
+
+  // Lấy vị trí
   let lat = parseFloat(localStorage.getItem("lat"));
   let lng = parseFloat(localStorage.getItem("lng"));
 
@@ -499,11 +600,13 @@ function search() {
   }
 
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-  const filteredJobs = jobs.filter(job =>
-    job.tenCV.toLowerCase().includes(keyword) ||
-    job.tenCT.toLowerCase().includes(keyword) ||
-    job.diachi.toLowerCase().includes(keyword)
-  );
+const filteredJobs = jobs.filter(job => {
+  const matchTinh = selectedTinh === "" || job.diachi?.toLowerCase().includes(selectedTinh);
+  const matchCV = selectedCV === "" || job.tenCV?.toLowerCase().includes(selectedCV);
+
+  return matchTinh && matchCV;
+});
+
 
   filteredJobs.sort((a, b) => {
     const distA = tinhKhoangCach(lat, lng, a.lat, a.lng);
@@ -511,17 +614,25 @@ function search() {
     return distA - distB;
   });
 
+  const tbody = document.createElement("tbody");
+
   filteredJobs.forEach(job => {
-    const div = document.createElement("div");
-    div.className = "job-item";
-    div.innerHTML = `
-      <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
-      <small>${job.diachi} | Lương: ${job.luong}</small>
+    const row = document.createElement("tr");
+    row.style.cursor = "pointer";
+    row.onclick = () => hienChiTiet(job);
+
+    row.innerHTML = `
+      <td style="padding:8px; border:1px solid #ccc;"><strong>${job.tenCV}</strong></td>
+      <td style="padding:8px; border:1px solid #ccc;">${job.tenCT} - ${job.ttln}<br><small>${job.diachi}</small></td>
+      <td style="padding:8px; border:1px solid #ccc;">${job.luong}</td>
     `;
-    div.onclick = () => hienChiTiet(job);
-    jobContainer.appendChild(div);
+    tbody.appendChild(row);
   });
+
+  table.appendChild(tbody);
+  jobContainer.appendChild(table);
 }
+
 
 function tinhKhoangCach(lat1, lng1, lat2, lng2) {
   const R = 6371;
@@ -541,6 +652,102 @@ function dangXuat() {
   alert("Đã đăng xuất.");
   location.reload();
 }
+
+function taoFilterTinhThanh() {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+  const diaChiList = jobs
+    .map(job => job.diachi)
+    .filter(d => d && d.trim() !== "")
+    .map(d => {
+      const parts = d.split(",");
+      return parts[parts.length - 1].trim(); // lấy phần cuối cùng của địa chỉ
+    });
+
+  const uniqueTinhThanh = [...new Set(diaChiList)];
+
+  const filterBox = document.getElementById("filterBox");
+  filterBox.innerHTML += "<p>Chọn một địa danh để lọc:</p>";
+
+  uniqueTinhThanh.forEach((tinh, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.marginBottom = "5px";
+
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "tinhThanhFilter";
+    radio.value = tinh;
+    radio.id = "tinh_" + index;
+
+    const label = document.createElement("label");
+    label.htmlFor = radio.id;
+    label.textContent = tinh;
+    label.style.marginLeft = "5px";
+
+    wrapper.appendChild(radio);
+    wrapper.appendChild(label);
+    filterBox.appendChild(wrapper);
+  });
+
+  filterBox.addEventListener("change", () => {
+    search();
+  });
+}
+
+
+function taoFilterCongViec() {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+
+  const tenCVList = jobs
+    .map(job => job.tenCV)
+    .filter(cv => cv && cv.trim() !== "")
+    .map(cv => cv.trim().toLowerCase());
+
+  const uniqueTenCV = [...new Set(tenCVList)];
+
+  const filterBox = document.getElementById("filterBoxCV");
+  filterBox.innerHTML = "<p>Chọn một công việc để lọc:</p>";
+
+  uniqueTenCV.forEach((tenCV, index) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.marginBottom = "5px";
+
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "congViecFilter";
+    radio.value = tenCV;
+    radio.id = "cv_" + index;
+
+    const label = document.createElement("label");
+    label.htmlFor = radio.id;
+    label.textContent = tenCV;
+    label.style.marginLeft = "5px";
+
+    wrapper.appendChild(radio);
+    wrapper.appendChild(label);
+    filterBox.appendChild(wrapper);
+  });
+
+  filterBox.addEventListener("change", () => {
+  search();
+});
+
+}
+function searchCongViec() 
+{
+  const selectedCV = document.querySelector('input[name="congViecFilter"]:checked')?.value || "";
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+  const filteredJobs = jobs.filter(job => {
+    return selectedCV === "" || job.tenCV.toLowerCase().includes(selectedCV);
+  });
+
+  hienThiCongViec(filteredJobs);
+}
+
+
+
 </script>
 
 

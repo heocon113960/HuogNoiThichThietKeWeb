@@ -205,66 +205,67 @@
   }
 }
 
-document.getElementById("postJobForm").onsubmit = function(e) {
+document.getElementById("postJobForm").onsubmit = function (e) {
   e.preventDefault();
 
-  const tenCV = document.getElementById("tenCV");
-  const tenCT = document.getElementById("tenCT");
-  const diachi = document.getElementById("diachi");
-  const luong = document.getElementById("luong");
-  const chitiet = document.getElementById("chitiet");
-  const ttln = document.getElementById("ttln");
+  const tenCV = document.getElementById("tenCV").value.trim();
+  const tenCT = document.getElementById("tenCT").value.trim();
+  const diachiRaw = document.getElementById("diachi").value.trim();
+  const luong = document.getElementById("luong").value.trim();
+  const chitiet = document.getElementById("chitiet").value.trim();
+  const ttln = document.getElementById("ttln").value.trim();
+  const lat = parseFloat(document.getElementById("lat").value);
+  const lng = parseFloat(document.getElementById("lng").value);
 
-  let hasError = false;
-
-  [tenCV, tenCT, luong, chitiet].forEach(input => {
-    if (input.value.trim() === "") {
-      input.classList.add("shake");
-      hasError = true;
-      setTimeout(() => input.classList.remove("shake"), 300);
-    }
-  });
-
-  if (hasError) {
-    alert("Vui lòng điền đầy đủ thông tin!");
+  // Kiểm tra các trường bắt buộc
+  if (!tenCV || !tenCT || !luong || !chitiet || !ttln) {
+    alert("❌ Vui lòng điền đầy đủ thông tin bắt buộc.");
     return;
   }
 
-  const lat = document.getElementById("lat").value;
-  const lng = document.getElementById("lng").value;
-
-  if (!lat || !lng) {
-    const confirmNoLocation = confirm("Bạn chưa chọn vị trí trên bản đồ. Tiếp tục đăng mà không có tọa độ?");
-    if (!confirmNoLocation) return;
+  // Cảnh báo nếu chưa chọn vị trí
+  if (isNaN(lat) || isNaN(lng)) {
+    const tiepTuc = confirm("⚠️ Bạn chưa chọn vị trí trên bản đồ. Tiếp tục đăng mà không có tọa độ?");
+    if (!tiepTuc) return;
   }
 
+  // Rút gọn địa chỉ nếu có từ 3 phần trở lên
+  const diachiParts = diachiRaw.split(",");
+  const diachiRutGon = diachiParts.length > 2
+    ? diachiParts.slice(0, diachiParts.length - 2).join(",").trim()
+    : diachiRaw;
+
+  // Tạo đối tượng công việc
   const job = {
-    tenCV: tenCV.value.trim(),
-    tenCT: tenCT.value.trim(),
-    diachi: diachi.value.trim(),
-    lat: parseFloat(lat),
-    lng: parseFloat(lng),
-    luong: luong.value.trim(),
-    chitiet: chitiet.value.trim(),
-    ttln: ttln.value.trim(),
+    tenCV,
+    tenCT,
+    diachi: diachiRutGon,
+    lat: isNaN(lat) ? null : lat,
+    lng: isNaN(lng) ? null : lng,
+    luong,
+    chitiet,
+    ttln,
     duyet: false
   };
 
+  // Lưu vào localStorage
   const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
   jobs.push(job);
   localStorage.setItem("jobs", JSON.stringify(jobs));
 
+  // Thông báo
   alert(
-    `Đã đăng tuyển:\n` +
-    `- Công việc: ${job.tenCV}\n` +
-    `- Công ty: ${job.tenCT}\n` +
-    `- Địa điểm: ${job.diachi || "Không có"}\n` +
-    `- Lương: ${job.luong}\n` +
-    `- Thông tin chi tiết: ${job.chitiet}\n\n` +
-  `- Thông tin liên hệ: ${job.ttln}\n\n`+
+    `✅ Đã đăng tuyển:\n` +
+    `- Công việc: ${tenCV}\n` +
+    `- Công ty: ${tenCT}\n` +
+    `- Địa điểm: ${diachiRutGon || "Không có"}\n` +
+    `- Lương: ${luong}\n` +
+    `- Chi tiết: ${chitiet}\n` +
+    `- Liên hệ: ${ttln}\n` +
     `Trạng thái: Chờ duyệt`
   );
 
+  // Hỏi tiếp tục
   const tiepTuc = confirm("Bạn có muốn đăng thêm bài?");
   if (tiepTuc) {
     document.getElementById("postJobForm").reset();
@@ -280,6 +281,7 @@ document.getElementById("postJobForm").onsubmit = function(e) {
     window.location.href = "test.html";
   }
 };
+
 </script>
 
 

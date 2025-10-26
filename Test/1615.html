@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>    
+    body 
+    { 
+      font-family: Time New Roman; margin: 0;  
+      padding: 0; 
+    }
+
+    header 
+    { 
+      background-color: #FAFAD2; 
+      color: white; 
+      padding: 20px; 
+      text-align: center; }
+
+
+    .search-box {
+      display: flex;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    input[type="text"] 
+    {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px 0 0 4px;
+      outline: none;
+    }
+  
+    button 
+    {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-left: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+
+    button:hover 
+    {
+      background-color: #45a049;
+    }
+.bordered-div {
+  border: 5px solid red;
+  padding: 20px; /* Thêm khoảng đệm để nội dung không chạm vào viền */
+}
+    nav 
+    { 
+      background-color: #f2f2f2; 
+      padding: 10px; 
+      text-align: center; 
+    }
+
+    nav a 
+    { 
+      margin: 0 15px; 
+      text-decoration: none; 
+      color: #333; 
+    }
+
+    .banner 
+    { 
+      background-color: #e6f7ff; 
+      padding: 40px; 
+      text-align: center; 
+    }
+
+    .jobs { padding: 20px; }
+
+    .job-item 
+    {
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+.job-item a 
+{
+  display: block;
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.job-item a:hover 
+{
+  color: #000080;
+}
+
+
+    footer 
+
+    { 
+      background-color: #333; 
+      color: white; 
+      text-align: center; 
+      padding: 10px; 
+    }
+
+
+
+.admin-box {
+  max-width: 600px;
+  margin: 30px auto;
+  background-color: #fff8e1;
+  border: 2px solid #ffcc80;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.admin-box h3 {
+  color: #ff9800;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.admin-note {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.admin-box .job-item {
+  background-color: #fff3e0;
+  border: 1px solid #ffe0b2;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.admin-box .job-item button {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.3s;
+}
+
+.admin-box .job-item button:hover {
+  background-color: #fb8c00;
+}
+
+.admin-box .job-item button.delete {
+  background-color: #e53935;
+  margin-left: 10px;
+}
+
+.admin-box .job-item button.delete:hover {
+  background-color: #c62828;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  background-color: #000080;
+  max-width: 960px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+.nav-right .register {
+  text-decoration: none;
+  background-color: #0073e6;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+ .card-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 5px;
+}
+
+.confirm-button {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}
+  .scroll-container {
+      width: 300px; /* Chiều rộng khung hiển thị */
+      overflow-x: auto; /* Cho phép cuộn ngang */
+      white-space: nowrap; /* Ngăn các phần tử xuống dòng */
+      border: 1px solid #ccc;
+    }
+
+    .item {
+      display: inline-block;
+      width: 150px;
+      height: 100px;
+      margin-right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      line-height: 100px;
+      font-size: 18px;
+    }
+    #Vieclamnoibat{
+  color: white;}
+  .Canle {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding: 10px;
+
+  /* Ẩn scrollbar trên các trình duyệt */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.Canle::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+   .background-box {
+  width: 80%;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #000080;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-size: 18px;
+  color: #FFFFFF;
+  position: relative;
+  height: auto;
+}
+
+.NgheTrongDiem {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Times New Roman', serif;
+}
+banner 
+    { 
+      background-color: #e6f7ff; 
+      padding: 40px; 
+      text-align: center; 
+    }
+
+    .jobs { padding: 20px; }
+
+    .job-item 
+    {
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+    }
+
+.job-item a 
+{
+  display: block;
+  color: black;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.job-item a:hover 
+{
+  color: #000080;
+}
+
+
+    footer 
+
+    { 
+      background-color: #333; 
+      color: white; 
+      text-align: center; 
+      padding: 10px; 
+    }
+.slider-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.Canle {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding: 10px;
+}
+
+.CanleItem {
+  min-width: 180px;
+  height: 120px;
+  background-color: white;
+  padding: 20px;
+  color: black;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.CanleItem:hover {
+  transform: scale(1.05);
+}
+
+.nav {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 50%;
+}
+.review-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 40px auto;
+}
+
+.review-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+  transform: scale(1.05);
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.stars {
+  font-size: 20px;
+  color: gold;
+  margin-bottom: 10px;
+}
+
+.review-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.review-card.active {
+  border: 2px solid #007bff;
+}
+
+  </style>
+
+</head>
+<body>
+  <header>
+    <h1 style="color:#1D2951">Nền tảng tìm người tìm việc nhanh chóng & miễn phí</h1>
+    <nav>
+    <a href="#">Trang Chủ</a>
+    <a href="#">Tìm Việc</a>
+    <a href="dangviec.html">Đăng Tuyển</a>
+    <a href="#" id="logoutLink" onclick="dangXuat()" style="display:none;">Đăng Xuất</a>
+<a href="dangnhap.html" id="loginLink" class="login">Đăng Nhập</a>
+      <a href="#" id="registerLink" class="register">Đăng Ký</a>
+  </nav>
+  </header>
+  <div id="userInfo" style="text-align:center; margin:10px;"></div>
+  <div class="banner">
+    <h2>Chào mừng đến với TMTeam</h2>
+    <p>Tìm việc làm phù hợp hoặc đăng tin tuyển dụng dễ dàng</p>
+        <a href="#">
+    </a>
+    <img id="bordered-div" src="#" alt="Để ảnh ở đây">
+  </div>
+  <div class="search-box">
+  <input type="text" id="searchInput" placeholder="Tìm việc bạn cần:..." oninput="showSuggestions()">
+  <button onclick="search()">Tìm kiếm</button>
+</div>
+<ul id="suggestions" style="max-width:400px; margin:auto; list-style:none; padding:0; background:#fff; border:1px solid #ccc; border-radius:4px;"></ul>
+
+<div id="adminPanel" style="display: none;">
+  <div class="admin-box">
+    <h3>📢 Bài đăng chờ duyệt:</h3>
+    <p class="admin-note">Chỉ tài khoản quản trị mới có thể duyệt bài đăng mới.</p>
+    <div id="pendingJobs"></div>
+  </div>
+</div>
+
+  <div class="jobs">
+
+<body>
+  <div class="container">
+    <h1 id="Vieclamnoibat">Việc làm nổi bật</h1>
+    <div class="selection-grid">
+      <div class="card">
+        image1.jpg
+        <div class="card-content">
+          <p><strong>TenCongTy</strong> PhamVanChieu</p>
+          <p><strong>ViTri</strong> SinhVien</p>
+          <p><strong>Luong</strong> 1000</p>
+        </div>
+      </div>
+      <div class="card">
+        image2.jpg
+        <div class="card-content">
+          <p><strong>TenCongTy:</strong>NguyenVanBao</p>
+          <p><strong>ViTri</strong> SinhVienIT</p>
+          <p><strong>Luong</strong> 500</p>
+        </div>
+      </div>
+      <div class="card">
+        image3.jpg
+        <div class="card-content">
+          <p><strong>TenCongTy:</strong>NguyenVanBao</p>
+          <p><strong>ViTri</strong> SinhVienIT</p>
+          <p><strong>Luong</strong> 500</p>
+        </div>
+      </div>
+      <div class="card">
+        image3.jpg
+        <div class="card-content">
+          <p><strong>TenCongTy:</strong>NguyenVanBao</p>
+          <p><strong>ViTri</strong> SinhVienIT</p>
+          <p><strong>Luong</strong> 500</p>
+        </div>
+      </div>
+      <div class="card">
+        image3.jpg
+        <div class="card-content">
+          <p><strong>TenCongTy:</strong>NguyenVanBao</p>
+          <p><strong>ViTri</strong> SinhVienIT</p>
+          <p><strong>Luong</strong> 500</p>
+        </div>
+      </div>
+      <div class="card">
+        image2.jpg
+        <div class="card-content">
+          <p><strong>TenCongTy:</strong>NguyenVanBao</p>
+          <p><strong>ViTri</strong> SinhVienIT</p>
+          <p><strong>Luong</strong> 500</p>
+        </div>
+      </div>
+      
+    </div>
+<div class="background-box">
+  <div class="slider">
+    <h2 class="NgheTrongDiem"><strong>Nghề Trọng Điểm</strong></h2>
+    <div class="slider-container">
+      <button class="nav left" onclick="scrollLeft()">←</button>
+
+      <div class="Canle" id="CanleSlider">
+        <a href="#" class="CanleItem"><img src="#" alt="Daylahinhanh">Viec1</a>
+        <a href="#" class="CanleItem"><img src="#" alt="Daylahinhanh">Viec2</a>
+        <a href="#" class="CanleItem"><img src="#" alt="Daylahinhanh">Viec3</a>
+        <a href="#" class="CanleItem"><img src="#" alt="Daylahinhanh">Viec4</a>
+        <a href="#" class="CanleItem"><img src="#" alt="Daylahinhanh">Viec5</a>
+      </div>
+
+      <button class="nav right" onclick="scrollRight()">→</button>
+    </div>
+  </div>
+</div>
+
+<div class="review-container">
+  <div class="review-card">
+    <img src="https://via.placeholder.com/60" alt="Avatar" class="avatar">
+    <div class="stars">★★★★★</div>
+    <p class="review-text">Nhân viên cực kì giỏi do thiếu ngủ</p>
+  </div>
+
+  <div class="review-card active">
+    <img src="https://via.placeholder.com/60" alt="Avatar" class="avatar">
+    <div class="stars">★★★★☆</div>
+    <p class="review-text">Code Web việc cao lương thấp</p>
+  </div>
+
+  <div class="review-card">
+    <img src="https://via.placeholder.com/60" alt="Avatar" class="avatar">
+    <div class="stars">★★★☆☆</div>
+    <p class="review-text">Massage cho coder</p>
+  </div>
+</div>
+
+
+
+<div class="jobs">
+    <h3>Việc làm hiện tại:</h3>
+
+
+<div id="jobDetail" style="max-width:600px; margin:20px auto; padding:20px; border:1px solid #ccc; border-radius:10px; background:#f9f9f9; display:none;"></div>
+</div>
+    <button type="button" class="confirm-button">Xác nhận lựa chọn</button>
+<div id="jobDetail" style="max-width:600px; margin:20px auto; padding:20px; border:1px solid #ccc; border-radius:10px; background:#f9f9f9; display:none;"></div>
+
+</div>
+
+  <footer>
+    &copy; 2025 TMTeam | Liên hệ:0368284041 | Email:ricute069@gmail.com  
+  </footer>
+
+
+<!-- lụm AI rất nhiều-->
+<script>
+function scrollLeft() {
+  document.getElementById('CanleSlider').scrollBy({ left: -200, behavior: 'smooth' });
+}
+
+function scrollRight() {
+  document.getElementById('CanleSlider').scrollBy({ left: 200, behavior: 'smooth' });
+}
+
+
+  let jobs = [];
+
+
+function showSuggestions() 
+{
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const suggestionBox = document.getElementById("suggestions");
+  suggestionBox.innerHTML = "";
+
+  const jobList = updateJobList();
+
+  if (input.length === 0) return;
+
+  // Tìm theo title hoặc info
+  const filteredJobs = jobList.filter(job =>
+    job.title.toLowerCase().includes(input) ||
+    job.info.toLowerCase().includes(input)
+  );
+
+  filteredJobs.forEach(job => {
+    const li = document.createElement("li");
+    li.textContent = job.info;
+    li.style.padding = "8px";
+    li.style.borderBottom = "1px solid #ccc";
+    li.style.cursor = "pointer";
+    li.onmouseover = () => li.style.backgroundColor = "#f2f2f2";
+    li.onmouseout = () => li.style.backgroundColor = "#fff";
+    li.onclick = () => {
+      document.getElementById("searchInput").value = job.title;
+      suggestionBox.innerHTML = "";
+      search();
+    };
+    suggestionBox.appendChild(li);
+  });
+}
+
+
+
+function search() {
+  const keyword = document.getElementById("searchInput").value.toLowerCase();
+  const jobItems = document.querySelectorAll(".job-item");
+  let found = false;
+
+  jobItems.forEach(item => {
+    const title = item.querySelector("strong")?.textContent.toLowerCase() || "";
+
+    if (!found && title.includes(keyword)) {
+      item.style.display = "block";
+      found = true;
+    } else {
+      item.style.display = "none";
+    }
+  });
+}
+
+
+function updateJobList() {
+  const jobItems = document.querySelectorAll(".job-item");
+  const jobList = [];
+
+  jobItems.forEach(item => {
+    const title = item.querySelector("strong")?.textContent.trim() || "";
+    const info = item.textContent.trim();
+    jobList.push({ title, info });
+  });
+
+  return jobList;
+}
+
+
+
+</script>
+
+<script>
+window.onload = function() {
+  capNhatGiaoDienNguoiDung();
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+  });
+
+  document.getElementById("adminPanel").style.display = isAdmin ? "block" : "none";
+};
+
+
+
+
+
+function renderJobs() {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobContainer.innerHTML = "<h3>Việc làm hiện tại:</h3>";
+  pendingContainer.innerHTML = "";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+  });
+
+  if (isAdmin) {
+  document.getElementById("adminPanel").style.display = "block";
+} else {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+}
+
+function capNhatGiaoDienNguoiDung() {
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
+
+  const userInfo = document.getElementById("userInfo");
+  const loginLink = document.getElementById("loginLink");
+  const logoutLink = document.getElementById("logoutLink");
+  const registerLink = document.getElementById("registerLink");
+
+  if (username) {
+    userInfo.innerHTML = `<strong>👤 Xin chào, ${username}</strong>`;
+    loginLink.style.display = "none";
+    logoutLink.style.display = "inline-block";
+    registerLink.style.display = "none";
+  } else {
+    userInfo.innerHTML = "";
+    loginLink.style.display = "inline-block";
+    logoutLink.style.display = "none";
+    registerLink.style.display = "inline-block";
+  }
+}
+
+
+
+
+function duyetBai(index) {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("Bạn không có quyền duyệt bài.");
+    return;
+  }
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  jobs[index].duyet = true;
+  localStorage.setItem("jobs", JSON.stringify(jobs));
+  alert("Bài đã được duyệt!");
+  location.reload();
+}
+
+function xoaBai(index) {
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    alert("Bạn không có quyền xóa bài.");
+    return;
+  }
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const confirmDelete = confirm("Bạn có chắc muốn xóa bài này?");
+  if (confirmDelete) {
+    jobs.splice(index, 1);
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+    alert("Bài đã được xóa!");
+    location.reload();
+  }
+}
+
+function dangXuat() {
+  localStorage.removeItem("role");
+  localStorage.removeItem("username");
+  alert("Đã đăng xuất.");
+  location.reload();
+}
+
+
+
+//localStorage.setItem("role", "admin");
+
+
+
+function hienChiTiet(job) {
+  const url = `chitiet.html?tenCV=${encodeURIComponent(job.tenCV)}&tenCT=${encodeURIComponent(job.tenCT)}&diachi=${encodeURIComponent(job.diachi)}&luong=${encodeURIComponent(job.luong)}&chitiet=${encodeURIComponent(job.chitiet || "")}`;
+  window.location.href = url;
+}
+<script>
+  let viTriDaLay = false;
+
+window.onload = function() {
+  
+  capNhatGiaoDienNguoiDung();
+
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+
+
+  });
+
+  document.getElementById("adminPanel").style.display = isAdmin ? "block" : "none";
+};
+function renderJobs() {
+  const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  const jobContainer = document.querySelector(".jobs");
+  const pendingContainer = document.getElementById("pendingJobs");
+  const isAdmin = localStorage.getItem("role") === "admin";
+
+  jobContainer.innerHTML = "<h3>Việc làm hiện tại:</h3>";
+  pendingContainer.innerHTML = "";
+
+  jobs.forEach((job, index) => {
+    const div = document.createElement("div");
+    div.className = "job-item";
+    div.onclick = () => hienChiTiet(job);
+
+    if (job.duyet) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small>
+        ${isAdmin ? `<br><button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>` : ""}
+      `;
+      jobContainer.appendChild(div);
+    } else if (isAdmin) {
+      div.innerHTML = `
+        <strong>${job.tenCV}</strong> - ${job.tenCT} - ${job.ttln}<br>
+        <small>${job.diachi} | Lương: ${job.luong}</small><br>
+        <button onclick="event.stopPropagation(); duyetBai(${index})">✅ Duyệt bài</button>
+        <button class="delete" onclick="event.stopPropagation(); xoaBai(${index})">🗑️ Xóa bài</button>
+      `;
+      pendingContainer.appendChild(div);
+    }
+  });
+
+  if (isAdmin) {
+  document.getElementById("adminPanel").style.display = "block";
+} else {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+}
+
+function capNhatGiaoDienNguoiDung() {
+  const username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
+  const vaitro = localStorage.getItem("vaitro");
+
+  const userInfo = document.getElementById("userInfo");
+  const loginLink = document.getElementById("loginLink");
+  const logoutLink = document.getElementById("logoutLink");
+  const registerLink = document.getElementById("registerLink");
+  const dangViecLink = document.getElementById("dangViecLink");
+
+  if (username) {
+    const isAdmin = role === "admin";
+    userInfo.innerHTML = `👤 Xin chào, ${isAdmin ? "admin" : username}`;
+    loginLink.style.display = "none";
+    logoutLink.style.display = "inline-block";
+    registerLink.style.display = "none";
+  } else {
+    userInfo.innerHTML = "";
+    loginLink.style.display = "inline-block";
+    logoutLink.style.display = "none";
+    registerLink.style.display = "inline-block";
+  }
+
+  if (dangViecLink) {
+    if (vaitro === "nhatuyendung") {
+      dangViecLink.style.display = "inline-block";
+      dangViecLink.textContent = "Đăng Việc";
+      dangViecLink.href = "dangviec.html";
+    } else if (vaitro === "nguoitimviec") {
+      dangViecLink.style.display = "inline-block";
+      dangViecLink.textContent = "Tìm Việc";
+      dangViecLink.href = "timviec.html";
+    } else {
+      dangViecLink.style.display = "none";
+    }
+  }
+}
+
+</script>
+
+</body>
+</html>
